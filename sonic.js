@@ -68,7 +68,23 @@
 class Sonic {
     constructor(game) {
       this.game = game;
+      // idle animtaion facing right
       this.animator = new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 0, 57, 45, 38, 6, 0.08)
+      // idle animation facing left
+
+
+      // running animation facing right
+
+      // running animation facing left 
+
+      // jump animation facing right
+
+      // jump animation facing left
+
+      // spinnning animation facing right 
+
+      // spinnning animation facing left
+   
       this.x = 0;
       this.y = 480;
       this.speed = 400; // movement of sprite animation towards the right speed (400 pixels per second)
