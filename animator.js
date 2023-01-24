@@ -1,49 +1,38 @@
 class Animator {
   constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, framePadding, reverse, loop) {
-      Object.assign(this, { spritesheet, xStart, yStart, height, width, frameCount, frameDuration, framePadding, reverse, loop });
+    Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, framePadding, reverse, loop});
 
-      this.elapsedTime = 0;
-      this.totalTime = this.frameCount * this.frameDuration;
-
+    this.elapsedTime = 0;
+    this.totalTime = frameCount * frameDuration;
+    this.frame = 0;
+    this.done = false;
   };
 
-  drawFrame(tick, ctx, x, y, scale) {
-      this.elapsedTime += tick;
-// drawImage(this.spritesheet, 
-//       sx, sy // where on sprite sheet we want to draw
-//       sw, sh // how big of a frame we are grabbing from that
-//       dX, dY // where we want to draw it on the canvvas
-//       dW, dH // how big we want to draw that as well
-//      );
-      if (this.isDone()) {
-          if (this.loop) {
-              this.elapsedTime -= this.totalTime;
-          } else {
-              return;
-          }
-      }
-
-      let frame = this.currentFrame();
-      if (this.reverse) frame = this.frameCount - frame - 1;
-     
-      ctx.drawImage(this.spritesheet,
-          this.xStart + frame * (this.width + this.framePadding), this.yStart, //source from sheet
-          this.width, this.height,
-          x, y,
-          this.width * scale,
-          this.height * scale);
-
-      if (PARAMS.DEBUG) {
-          ctx.strokeStyle = 'Green';
-          ctx.strokeRect(x, y, this.width * scale, this.height * scale);
-      }
+  drawFrame(tick, ctx, x, y) {
+    this.elapsedTime += tick;
+    if (this.elapsedTime > this.totalTime) {
+        if(this.loop){
+            this.elapsedTime -= this.totalTime;
+        }else{
+            this.done = true;
+            return;
+        }
+    }
+    if (this.reverse) {
+        this.frame = Math.floor((this.totalTime - this.elapsedTime) / this.frameDuration);
+    } else {
+        this.frame = Math.floor(this.elapsedTime / this.frameDuration);
+    }
+    ctx.drawImage(this.spritesheet, 
+      this.xStart + (this.width + this.framePadding) * this.frame, this.yStart, 
+      this.width, this.height, 
+      x, y,
+      this.width*3, this.height*3
+  );
+  
   };
 
-  currentFrame() {
-      return Math.floor(this.elapsedTime / this.frameDuration);
-  };
-
-  isDone() {
-      return (this.elapsedTime >= this.totalTime);
-  };
+  isDone(){
+      return this.done;
+  }
 };

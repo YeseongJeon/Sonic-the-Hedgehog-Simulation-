@@ -69,7 +69,8 @@ class Sonic {
     constructor(game) {
       this.game = game;
       // idle animtaion facing right
-      this.animator = new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 0, 57, 45, 38, 6, 0.08)
+      this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 5, 723, 45, 45, 1, 0.33, 0, false, true);
+     
       // idle animation facing left
 
 
