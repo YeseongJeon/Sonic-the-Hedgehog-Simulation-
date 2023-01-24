@@ -69,33 +69,43 @@ class Sonic {
     constructor(game) {
       this.game = game;
       // idle animtaion facing right
-      this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 5, 723, 45, 45, 1, 0.33, 0, false, true);
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 5, 723, 45, 45, 1, 0.33, 0, false, true);
      
       // idle animation facing left
 
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 741, 38, -41, 47, 1, 0.33, 0, false, true); // change to true true if issues
 
       // running animation facing right
 
+
+    // this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 2, 916, 49, 45, 14, 0.08, 0, false, true);
+
       // running animation facing left 
 
-      // jump animation facing right
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 745, 230, -49, 47, 14, 0.08, 0, false, true);
 
+      // jump animation facing right
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 340, 1160, 47, 56, 8, 0.08, 0, false, true);
       // jump animation facing left
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 410, 480, -47, 56, 8, 0.08, 0, false, true);
 
       // spinnning animation facing right 
-
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 1, 1113, 47, 40, 10, 0.08, 0, false, true);
       // spinnning animation facing left
-   
-      this.x = 0;
-      this.y = 480;
+    //   this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 746, 427, -47, 40, 10, 0.08, 0, false, true);
+
+    // pure spinning animation (might need)
+    //  this.animator =  new Animator(ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png"), 376, 1114, 54, 40, 2, 0.08, 0, false, true);
+      this.x = 200;
+      this.y = 200;
       this.speed = 400; // movement of sprite animation towards the right speed (400 pixels per second)
     };
   
     update() { // Lets move our running sonic towards the right
-      this.x+= this.speed * this.game.clockTick;  
-      if (this.x > 1024){ // if movement gets past the width of the canvas
-         this.x = 0; // make it back to 0
-      }
+    //   this.x+= this.speed * this.game.clockTick;  
+    //   if (this.x > 1024){ // if movement gets past the width of the canvas
+    //      this.x = 0; // make it back to 0
+    //   }
   
     };
   
