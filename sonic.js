@@ -1,33 +1,62 @@
 class Sonic {
-  constructor(game, x, y) {
-      Object.assign(this, { game, x, y });
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
 
-      this.game.sonic = this;
+        this.game.sonic = this;
 
-      // spritesheet
-      this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
+        // spritesheet
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
 
-      // Sonic's state variables
-      this.facing = 0; // 0 = right, 1 = left
-      this.state = 0; // 0 = idle, 1 = running, 2 = jumping 3 = spinning
+        // Sonic's state variables
+        this.facing = 0; // 0 = right, 1 = left
+        this.state = 0; // 0 = idle, 1 = running, 2 = jumping 3 = spinning
 
-      this.velocity = { x: 0, y: 0 };
-      this.fallAcc = 562.5;
+        this.velocity = { x: 0, y: 0 };
+        this.fallAcc = 562.5;
 
-      this.updateBB();
+      
+        this.lastFacing = 0;
+        this.animations = [];
+        this.loadAnimations();
 
-      // Sonic's animations
-      this.animations = [];
-      this.loadAnimations();
-  };
-
-  loadAnimations() {
+        document.addEventListener("keydown", event => {
+            if (event.code === "ArrowRight") {
+              this.state = 1;
+              this.facing = 0;
+              this.lastFacing = 0;
+            } else if (event.code === "ArrowLeft") {
+              this.state = 1;
+              this.facing = 1;
+              this.lastFacing = 1;
+            } else if (event.code === "KeyX") {
+              if (this.lastFacing === 0) {
+                this.state = 2;
+                this.facing = 0;
+                this.velocity.x = jumpVelocity;
+              } else {
+                this.state = 2;
+                this.facing = 1;
+                this.velocity.x = -jumpVelocity;
+              }
+            } else if (event.code === "KeyZ") {
+              if (this.lastFacing === 0) {
+                this.state = 3;
+                this.facing = 0;
+              } else {
+                this.state = 3;
+                this.facing = 1;
+              }
+            }
+          });
+    }
+    loadAnimations() {
       for (var i = 0; i < 4; i++) { // four states (idle, running, jumping and spinning)
           this.animations.push([]);
           for (var k = 0; k < 2; k++) { // two directions (right or left)
               this.animations[i].push([]);
           }
       }
+    
 
       // idle animation for state = 0
       // facing right = 0
@@ -52,30 +81,68 @@ class Sonic {
 
       // spinning animation
       // facing right
-      this.animations[3][0] =  new Animator(this.spritesheet, 1, 1113, 47, 40, 10, 0.08, 0, false, true);
-
-      // facing left
+      this.animations[3][0] =  new Animator(this.spritesheet, 1, 1113, 3, 47, 40, 10, 0.08, 0, false, true);
+          // facing left
       this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
 
 
-    // pure spinning animation (might need)
-    //  this.animator =  new Animator(this.spritesheet, 376, 1114, 54, 40, 2, 0.08, 0, false, true);
+      // pure spinning animation (might need)
+//     //  this.animator =  new Animator(this.spritesheet, 376, 1114, 54, 40, 2, 0.08, 0, false, true);
+}
 
 
-  };
+}
 
-  update() { // Lets move our running sonic towards the right
-    this.x+= this.speed * this.game.clockTick;  
-    if (this.x > 1024){ // if movement gets past the width of the canvas
-       this.x = 0; // make it back to 0
+update () {
+
+  // new collision detection and state changes
+  if (this.state === 2) {
+    if (this.velocity.y >= 0) {
+      this.state = 0;
     }
+  } else if (this.state === 3) {
+    if (this.animations[3][this.facing].isDone()) {
+      this.state = 0;
+    }
+  }
 
-  };
+  // animation switching
+  switch (this.state) {
+    case 0:
+      this.animations[0][this.facing].update();
+      break;
+    case 1:
+      this.animations[1][this.facing].update();
+      break;
+    case 2:
+      this.animations[2][this.facing].update();
+      break;
+    case 3:
+      this.animations[3][this.facing].update();
+      break;
+  }
 
-updateBB() {};  
-  draw(ctx) {
-     this.animator.drawFrame(this.game.clockTick, ctx,this.x,this.y);
-  };
+  // velocity and position updates
+  this.velocity.y += this.fallAcc * this.game.clockTick;
+  this.x += this.velocity.x * this.game.clockTick;
+  this.y += this.velocity.y * this.game.clockTick;
+
+  // collision detection and state changes
+  if (this.y > platformY) {
+    this.y = platformY;
+    this.velocity.y = 0;
+    this.state = 0;
+  }
+
+  if (this.x > 1024) {
+    this.x = 0;
+  }
 };
 
-   
+// draw
+draw(ctx) {
+    let anim = this.animations[this.state][this.facing];
+    anim.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+  }
+
+}
