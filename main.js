@@ -8,8 +8,9 @@ const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/realSonicSheet.png");
 
 
-// brick floor 
-// ASSET_MANAGER.queueDownload("./sprites/bricks.png");
+// platform
+ASSET_MANAGER.queueDownload("./sprites/floor.png");
+
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
@@ -17,7 +18,7 @@ ASSET_MANAGER.downloadAll(() => {
 	ctx.imageSmoothingEnabled = false;
 	
 	gameEngine.addEntity(new Sonic(gameEngine));
-	// gameEngine.addEntity(new Background());
+	gameEngine.addEntity(new Platform(gameEngine));
 
 	gameEngine.init(ctx);
 

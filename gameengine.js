@@ -8,12 +8,21 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame
         this.entities = [];
+        this.surfaceWidth = null;
+        this.surfaceHeight = null;
 
         // Information on the input
-        this.click = null;
-        this.mouse = null;
-        this.wheel = null;
-        this.keys = {};
+        // this.click = null;
+        // this.mouse = null;
+        // this.wheel = null;
+        // this.keys = {};
+
+        this.left = false; // left arrow key - Sonic to Run to the left 
+        this.right = false; // right arrow key - Sonic to Run to the Right
+        this.jump = false; // X key for Sonic to Jump 
+        this.spin = false;  // Z key for Sonic to Spin
+
+        this.gamepad = null;
 
         // Options and the Details
         this.options = options || {
@@ -23,6 +32,8 @@ class GameEngine {
 
     init(ctx) {
         this.ctx = ctx;
+        this.surfaceWidth = this.ctx.canvas.width;
+        this.surfaceHeight = this.ctx.canvas.height;
         this.startInput();
         this.timer = new Timer();
     };
@@ -35,46 +46,93 @@ class GameEngine {
         };
         gameLoop();
     };
-
+    
     startInput() {
-        const getXandY = e => ({
-            x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-            y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
-        });
-        
-        this.ctx.canvas.addEventListener("mousemove", e => {
-            if (this.options.debugging) {
-                console.log("MOUSE_MOVE", getXandY(e));
-            }
-            this.mouse = getXandY(e);
-        });
+        this.keyboardActive = false;
+        var that = this;
 
-        this.ctx.canvas.addEventListener("click", e => {
-            if (this.options.debugging) {
-                console.log("CLICK", getXandY(e));
-            }
-            this.click = getXandY(e);
-        });
+        var getXandY = function (e) {
+            var x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
+            var y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
 
-        this.ctx.canvas.addEventListener("wheel", e => {
-            if (this.options.debugging) {
-                console.log("WHEEL", getXandY(e), e.wheelDelta);
-            }
+            return { x: x, y: y, radius: 0 };
+        }
+        function mouseListener (e) {
+            that.mouse = getXandY(e);
+        }
+        function mouseClickListener (e) {
+            that.click = getXandY(e);
+            // if (PARAMS.DEBUG) console.log(that.click);
+        }
+        function wheelListener (e) {
             e.preventDefault(); // Prevent Scrolling
-            this.wheel = e;
-        });
-
-        this.ctx.canvas.addEventListener("contextmenu", e => {
-            if (this.options.debugging) {
-                console.log("RIGHT_CLICK", getXandY(e));
+            that.wheel = e.deltaY;
+        }
+        function keydownListener (e) {
+            that.keyboardActive = true;
+            switch (e.code) {
+                case "ArrowLeft":
+                    that.left = true;
+                    break;
+                case "ArrowRight":
+                    that.right = true;
+                    break;
+                case "KeyX":
+                    that.jump = true;
+                    break;
+                case "KeyZ":
+                    that.spin = true;
+                    break;
             }
-            e.preventDefault(); // Prevent Context Menu
-            this.rightclick = getXandY(e);
-        });
+        }
+        function keyUpListener (e) {
+            that.keyboardActive = false;
+            switch (e.code) {
+                case "ArrowLeft":
+                    that.left = false;
+                    break;
+                case "ArrowRight":
+                    that.right = false;
+                    break;
+                case "KeyX":
+                    that.jump = false;
+                    break;
+                case "KeyZ":
+                    that.spin = false;
+                    break;
+            }
+        }
 
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+        that.mousemove = mouseListener;
+        that.leftclick = mouseClickListener;
+        that.wheelscroll = wheelListener;
+        that.keydown = keydownListener;
+        that.keyup = keyUpListener;
+
+        this.ctx.canvas.addEventListener("mousemove", that.mousemove, false);
+
+        this.ctx.canvas.addEventListener("click", that.leftclick, false);
+
+        this.ctx.canvas.addEventListener("wheel", that.wheelscroll, false);
+
+        this.ctx.canvas.addEventListener("keydown", that.keydown, false);
+
+        this.ctx.canvas.addEventListener("keyup", that.keyup, false);
     };
+    disableInput() {
+        var that = this;
+        that.ctx.canvas.removeEventListener("mousemove", that.mousemove);
+        that.ctx.canvas.removeEventListener("click", that.leftclick);
+        that.ctx.canvas.removeEventListener("wheel", that.wheelscroll);
+        that.ctx.canvas.removeEventListener("keyup", that.keyup);
+        that.ctx.canvas.removeEventListener("keydown", that.keydown);
+
+        that.left = false;
+        that.right = false;
+        that.jump = false;
+        that.spin = false;
+    }
+
 
     addEntity(entity) {
         this.entities.push(entity);
@@ -115,5 +173,3 @@ class GameEngine {
     };
 
 };
-
-// KV Le was here :)
