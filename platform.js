@@ -1,7 +1,7 @@
 class Platform {
   constructor(game) {
     this.position = {
-      x: 400,
+      x: 0,
       y: 667
     }
     this.game = game;

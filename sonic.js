@@ -25,6 +25,8 @@ class Sonic {
       this.state = 0;
       this.direction = 0;
       this.loadAnimations();
+      this.ground = 550;
+      this.isGrounded = false;
   }
 
   loadAnimations() {
@@ -83,10 +85,10 @@ class Sonic {
    
             
   
-    if (this.position.y > 550) {
+    if (this.position.y > 550) {   // freeze sonic on y position 550 so he does not fall below the screen
       this.position.y = 550;
       this.velocity.y = 0;
-    } else if (this.position.y <  0){
+    } else if (this.position.y <  0){ // dont allow sonic to fly above the screen
       this.position.y = 0;
       this.velocity.y = 0;
     }
@@ -110,16 +112,25 @@ class Sonic {
       console.log(this.game.right);
       this.position.x += this.speed * this.game.clockTick;
       this.direction = 0;
-      this.state = 1;
+      this.state = 1
       console.log(this.position.x)
     }
     // Jump
-    if (this.game.jump) {
-      console.log(this.game.jump)
-      this.position.y -= 25 // straight up about 17 pixels
-      this.state = 2;
+    
+      if (this.game.jump) {
+        console.log(this.game.jump)
+        this.position.y -= 20;
+        this.state = 2;
+        this.direction = 0;
+       
     }
-    // Spin
+  
+    if (this.position.y >= this.ground) {
+        this.position.y = this.ground;
+        this.state = 1;
+        this.direction = 0;
+    }
+      // Spin
     if (this.game.spin) {
       console.log(this.game.spin)
       this.position.x += this.spinSpeed * this.game.clockTick;
