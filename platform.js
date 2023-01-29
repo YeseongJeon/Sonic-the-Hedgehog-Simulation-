@@ -1,15 +1,15 @@
 class Platform {
-  constructor(game) {
-    this.position = {
-      x: 0,
-      y: 667
-    }
+  constructor(game, x, y) {
     this.game = game;
-    this.width = 400
-    this.height = 120
-
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png")
+    this.position = {
+      x: x,
+      y: y
+    };
+    this.width = 400;
+    this.height = 120;
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
   }
+
  
 
   update () {

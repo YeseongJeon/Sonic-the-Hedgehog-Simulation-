@@ -62,7 +62,7 @@ class GameEngine {
         }
         function mouseClickListener (e) {
             that.click = getXandY(e);
-            // if (PARAMS.DEBUG) console.log(that.click);
+            if (PARAMS.DEBUG) console.log(that.click);
         }
         function wheelListener (e) {
             e.preventDefault(); // Prevent Scrolling
