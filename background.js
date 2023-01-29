@@ -100,7 +100,8 @@ class Cloud3 {
 class Water {
     constructor(game) {
         this.game = game;
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./sprites/water.png"), 0, 0, 400, 105, 8, 0.2);
+        // this.animator = new Animator(ASSET_MANAGER.getAsset("./sprites/water.png"), 0, 0, 400, 105, 8, 0.2);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./sprites/water.png"), 0, 0, 400, 105, 8, 0.2, 0, false, true);
                                                                 //xStart, yStart, width, height, frameCount, frameDuration
     };
 
