@@ -1,6 +1,12 @@
 class BackgroundHill { 
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
+    constructor(game) {
+        this.position = {
+                  x: 0,
+                  y: 192
+                }
+                this.game = game;
+                this.width = 24000
+                this.height = 168
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/backgroundHill.png");
     };
@@ -13,14 +19,24 @@ class BackgroundHill {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0, 3800, 2000, 0, 192, 12000, 7000);
+        ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height);
                                         // x, y,        frameLocation,framesize x , y, 
     }
 };
 
+
+
+
+
 class TreesAndWaterfall { 
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
+    constructor(game) {
+        this.position = {
+                  x: 0,
+                  y: 360
+                }
+                this.game = game;
+                this.width = 24000
+                this.height = 141
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/treesAndWaterfall.png");
     };
@@ -33,14 +49,20 @@ class TreesAndWaterfall {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0, 3800, 2000, 0, 360, 12000, 7000);
+        ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height);
                                         // x, y,        frameLocation,framesize x , y, 
     }
 };
 
 class Cloud1 { 
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
+    constructor(game) {
+        this.position = {
+                  x: 0,
+                  y: 0
+                }
+                this.game = game;
+                this.width = 12000
+                this.height = 96
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud1.png");
     };
@@ -53,14 +75,19 @@ class Cloud1 {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0, 700, 200, 0, 0, 1400, 600);
+        ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height);
                                         // x, y,        frameLocation,framesize x , y, 
     }
 };
 class Cloud2 { 
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
-
+    constructor(game) {
+        this.position = {
+                  x: 0,
+                  y: 96
+                }
+                this.game = game;
+                this.width = 12000
+                this.height = 48
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud2.png");
     };
 
@@ -72,15 +99,20 @@ class Cloud2 {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0, 700, 200, 0, 96, 1400, 600);
+        ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height);
                                         // x, y,        frameLocation,framesize x , y, 
     }
 };
 
 class Cloud3 { 
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
-
+   constructor(game) {
+        this.position = {
+                  x: 0,
+                  y: 144
+                }
+                this.game = game;
+                this.width = 12000
+                this.height = 48
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud3.png");
     };
 
@@ -92,7 +124,7 @@ class Cloud3 {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0, 700, 200, 0, 144, 1400, 600);
+        ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height);
                                         // x, y,        frameLocation,framesize x , y, 
     }
 };
