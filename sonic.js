@@ -3,6 +3,7 @@ class Sonic {
   constructor(game) {
       
       this.game = game;
+      this.game.sonic = this; // special entity
       this.position = {
         x: 200,
         y: 200
@@ -73,20 +74,31 @@ getCurrentAnimationHeight(){
     this.position.y += this.velocity.y;
     this.velocity.y += gravity;
     
-    // for (let i = 0; i < this.game.entities.length; i++) {
-    //   let entity = this.game.entities[i];
-    //   if (entity instanceof Platform) {
-    //       if (this.position.y + this.getCurrentAnimationHeight() <=
-    //           entity.position.y &&
-    //           this.position.y + this.getCurrentAnimationHeight() +
-    //           this.velocity.y >=
-    //           entity.position.y &&
-    //           this.position.x + this.getCurrentAnimationWidth() >=
-    //           entity.position.x <= entity.position.x &&
-    //           this.position.x + entity.position
+    for (let i = 0; i < this.game.entities.length; i++) {
+      let entity = this.game.entities[i];
+      if (entity instanceof Platform) {
+          // if (this.position.y + this.getCurrentAnimationHeight() <=
+          //     entity.position.y &&
+          //     this.position.y + this.getCurrentAnimationHeight() +
+          //     this.velocity.y >=
+          //     entity.position.y &&
+          //     this.position.x + this.getCurrentAnimationWidth() >=
+          //     entity.position.x && 
+          //     this.position.x <= entity.position.x + this.getCurrentAnimationWidth()) {
+          //       this.velocity.y = 0
+          //     }
+
+//           if (this.position.x < entity.position.x + entity.getCurrentAnimationWidth() &&
+//     this.position.x + this.getCurrentAnimationWidth() > entity.position.x &&
+//     this.position.y < entity.position.y + entity.getCurrentAnimationHeight() &&
+//     this.getCurrentAnimationHeight() + this.position.y > entity.position.y) {
+//     // collision detected
+//     // handle collision here, e.g. by setting velocity to 0
+// }
+
               
-    //       }
-    //   }
+          }
+      }
   
     if (this.position.y > 550) {
       this.position.y = 550;
@@ -103,6 +115,7 @@ getCurrentAnimationHeight(){
       this.position.x -= this.speed * this.game.clockTick;
       this.direction = 1;
       this.state = 1;
+      console.log(this.position.x);
     }
     // Move right and spinning left
     if (this.game.spin && this.game.left) {
@@ -115,6 +128,7 @@ getCurrentAnimationHeight(){
       this.position.x += this.speed * this.game.clockTick;
       this.direction = 0;
       this.state = 1;
+      console.log(this.position.x)
     }
     // Jump
     if (this.game.jump) {
@@ -140,7 +154,7 @@ getCurrentAnimationHeight(){
 }
   draw(ctx) {
     if(this.state < 0 || this.state > 3) this.state = 0;
-    let done = this.animations[this.state][this.direction].drawFrame(this.game.clockTick, ctx, this.position.x, this.position.y);
+    let done = this.animations[this.state][this.direction].drawFrame(this.game.clockTick, ctx, this.position.x - this.game.camera.x , this.position.y);
     if (done) {
       this.animations[this.state][this.direction].elapsedTime = 0;
       this.state = 0;
