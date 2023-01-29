@@ -18,6 +18,9 @@ class Sonic {
       this.jumpSpeed = 200;
       this.spinSpeed = 1400;
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
+     
+      this.updateBB();
+
       this.animations = [];
       this.state = 0;
       this.direction = 0;
@@ -60,13 +63,16 @@ class Sonic {
     
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
   }
- 
-  getCurrentAnimationWidth(){
-    return this.animations[this.state][this.direction].width;
-}
-getCurrentAnimationHeight(){
-    return this.animations[this.state][this.direction].height;
-}
+  updateBB() { //update our Bounding Box
+    this.lastBB = this.BB;
+    if (this.direction === 0) { // when we are idle (not right or left)
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    }
+    else {
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2);
+    }
+};
+
   update() {
     const gravity = 0.5;
 
@@ -74,31 +80,8 @@ getCurrentAnimationHeight(){
     this.position.y += this.velocity.y;
     this.velocity.y += gravity;
     
-    for (let i = 0; i < this.game.entities.length; i++) {
-      let entity = this.game.entities[i];
-      if (entity instanceof Platform) {
-          // if (this.position.y + this.getCurrentAnimationHeight() <=
-          //     entity.position.y &&
-          //     this.position.y + this.getCurrentAnimationHeight() +
-          //     this.velocity.y >=
-          //     entity.position.y &&
-          //     this.position.x + this.getCurrentAnimationWidth() >=
-          //     entity.position.x && 
-          //     this.position.x <= entity.position.x + this.getCurrentAnimationWidth()) {
-          //       this.velocity.y = 0
-          //     }
-
-//           if (this.position.x < entity.position.x + entity.getCurrentAnimationWidth() &&
-//     this.position.x + this.getCurrentAnimationWidth() > entity.position.x &&
-//     this.position.y < entity.position.y + entity.getCurrentAnimationHeight() &&
-//     this.getCurrentAnimationHeight() + this.position.y > entity.position.y) {
-//     // collision detected
-//     // handle collision here, e.g. by setting velocity to 0
-// }
-
-              
-          }
-      }
+   
+            
   
     if (this.position.y > 550) {
       this.position.y = 550;
