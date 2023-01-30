@@ -14,6 +14,8 @@ class SceneManager {
     this.x = 0;
     this.sonic = new Sonic(this.game);
     this.game.entities.push(this.sonic);
+    let platform0 = new Platform(this.game, 300, 300, 400, 120);
+    this.game.entities.push(platform0);
     let platform1 = new Platform(this.game, 0, 667, 400, 120);
     this.game.entities.push(platform1);
     let platform2 = new Platform(this.game, 400, 667, 400, 120);
