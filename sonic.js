@@ -65,17 +65,18 @@ class Sonic {
     
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
   }
-  updateBB() { //update our Bounding Box
+ 
+ 
+  updateBB() {
     this.lastBB = this.BB;
-    if (this.direction === 0) { // when we are idle (not right or left)
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-    }
-    else {
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2);
-    }
+    this.BB = new BoundingBox(this.position.x, this.position.y, 155,130, "red");
+
+    console.log("This is this.BB", this.BB);
+
 };
     
 update() {
+  
   const gravity = 0.5;
   let standingOnPlatform = false;
 
@@ -90,13 +91,14 @@ update() {
 
   if (!standingOnPlatform) {
     this.position.y += this.velocity.y;
+    this.updateBB();
     this.velocity.y += gravity;
   }
   // this.isGrounded = false;
   //   this.game.entities.forEach(entity => {
   //   if (entity.BB && this.BB.collide(entity.BB)) {
   //     if (this.velocity.y > 0) {
-  //       if (entity instanceof Ground || entity instanceof Brick || entity instanceof Block || entity instanceof Platform) {
+  //       if (entity instanceof Platform) {
   //         if (this.lastBB.bottom <= entity.BB.top) {
   //           this.y = entity.BB.top - this.height;
   //           this.velocity.y = 0;
@@ -106,7 +108,7 @@ update() {
   //       }
   //     }
   //     if (this.velocity.y < 0) {
-  //       if (entity instanceof Brick) {
+  //       if (entity instanceof Platform) {
   //         if (this.lastBB.top >= entity.BB.bottom) {
   //           this.y = entity.BB.bottom;
   //           this.velocity.y = 0;
@@ -115,7 +117,7 @@ update() {
   //       }
   //     }
   //     if (this.velocity.x > 0) {
-  //       if (entity instanceof Ground || entity instanceof Brick || entity instanceof Block || entity instanceof Platform) {
+  //       if (entity instanceof Platform) {
   //         if (this.lastBB.right <= entity.BB.left) {
   //           this.x = entity.BB.left - this.width;
   //           this.velocity.x = 0;
@@ -124,7 +126,7 @@ update() {
   //       }
   //     }
   //     if (this.velocity.x < 0) {
-  //       if (entity instanceof Ground || entity instanceof Brick || entity instanceof Block || entity instanceof Platform) {
+  //       if (entity instanceof Platform) {
   //         if (this.lastBB.left >= entity.BB.right) {
   //           this.x = entity.BB.right;
   //           this.velocity.x = 0;
@@ -207,6 +209,10 @@ update() {
     if (done) {
       this.animations[this.state][this.direction].elapsedTime = 0;
       this.state = 0;
+    }
+    if (PARAMS.DEBUG) {
+      this.game.ctx.strokeStyle = "red";
+      this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
   }
   

@@ -1,12 +1,12 @@
 class Platform {
-  constructor(game, x, y) {
+  constructor(game, x, y, width, height) {
     this.game = game;
     this.position = {
       x: x,
       y: y
     };
-    this.width = 400;
-    this.height = 120;
+    this.width = width;
+    this.height = height;
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
   }
 
