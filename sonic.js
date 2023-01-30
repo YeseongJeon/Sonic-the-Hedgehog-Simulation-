@@ -27,6 +27,8 @@ class Sonic {
       this.loadAnimations();
       this.ground = 550;
       this.isGrounded = false;
+      this.BB = null;
+      this.lastBB = null;
   }
 
   loadAnimations() {
@@ -65,91 +67,42 @@ class Sonic {
     
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
   }
- 
- 
-  updateBB() {
-    this.lastBB = this.BB;
-    this.BB = new BoundingBox(this.position.x, this.position.y, 155,130, "red");
 
-    console.log("This is this.BB", this.BB);
-
-};
-    
 update() {
-  
   const gravity = 0.5;
+  this.updateBB();
   let standingOnPlatform = false;
 
   // Check if Sonic is standing on a platform
   this.game.entities.forEach(entity => {
     if (entity instanceof Platform && entity.BB && this.BB.collide(entity.BB)) {
         standingOnPlatform = true;
-        this.position.y = entity.y - PARAMS.BLOCKWIDTH;
+        this.position.y = entity.y - Platform.width;
         this.velocity.y = 0;
     }
-});
+  });
 
   if (!standingOnPlatform) {
     this.position.y += this.velocity.y;
     this.updateBB();
     this.velocity.y += gravity;
+  } else {
+    this.velocity.y = 0;
   }
-  // this.isGrounded = false;
-  //   this.game.entities.forEach(entity => {
-  //   if (entity.BB && this.BB.collide(entity.BB)) {
-  //     if (this.velocity.y > 0) {
-  //       if (entity instanceof Platform) {
-  //         if (this.lastBB.bottom <= entity.BB.top) {
-  //           this.y = entity.BB.top - this.height;
-  //           this.velocity.y = 0;
-  //           this.updateBB();
-  //           this.isGrounded = true;
-  //         }
-  //       }
-  //     }
-  //     if (this.velocity.y < 0) {
-  //       if (entity instanceof Platform) {
-  //         if (this.lastBB.top >= entity.BB.bottom) {
-  //           this.y = entity.BB.bottom;
-  //           this.velocity.y = 0;
-  //           this.updateBB();
-  //         }
-  //       }
-  //     }
-  //     if (this.velocity.x > 0) {
-  //       if (entity instanceof Platform) {
-  //         if (this.lastBB.right <= entity.BB.left) {
-  //           this.x = entity.BB.left - this.width;
-  //           this.velocity.x = 0;
-  //           this.updateBB();
-  //         }
-  //       }
-  //     }
-  //     if (this.velocity.x < 0) {
-  //       if (entity instanceof Platform) {
-  //         if (this.lastBB.left >= entity.BB.right) {
-  //           this.x = entity.BB.right;
-  //           this.velocity.x = 0;
-  //           this.updateBB();
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
-  //   this.x += this.velocity.x * this.game.clockTick;
-  //   this.y += this.velocity.y * this.game.clockTick;
-  //   this.updateBB();
 
   if (this.position.y > 550) {
     this.position.y = 550;
     this.velocity.y = 0;
-  } else if (this.position.y < 0) {
+  } else
+   if (this.position.y < 0) {
     this.position.y = 0;
     this.velocity.y = 0;
   }
+
   // Move left
   if (this.game.left) {
     console.log(this.game.left);
+    
     this.position.x -= this.speed * this.game.clockTick;
     this.direction = 1;
     this.state = 1;
@@ -202,6 +155,15 @@ update() {
   }
   
 }
+
+updateBB() {
+  this.lastBB = this.BB;
+  this.BB = new BoundingBox(this.position.x, this.position.y, 155,130, "red");
+
+  console.log("This is this.BB", this.BB);
+
+};
+
 
   draw(ctx) {
     if(this.state < 0 || this.state > 3) this.state = 0;
