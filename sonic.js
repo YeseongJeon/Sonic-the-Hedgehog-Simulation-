@@ -5,8 +5,8 @@ class Sonic {
       this.game = game;
       this.game.sonic = this; // special entity
       this.position = {
-        x: 200,
-        y: 200
+        x: 0,
+        y: 0
       }
       this.velocity = {
         x: 0, //increase as to the right ->
