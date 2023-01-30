@@ -16,6 +16,7 @@ ASSET_MANAGER.queueDownload("./sprites/cloud1.png");
 ASSET_MANAGER.queueDownload("./sprites/cloud2.png");
 ASSET_MANAGER.queueDownload("./sprites/cloud3.png");
 ASSET_MANAGER.queueDownload("./sprites/water.png");
+ASSET_MANAGER.queueDownload("./sprites/enemyCrab.png");
 ASSET_MANAGER.queueDownload("./sprites/treesAndWaterfall.png");
 
 
@@ -27,7 +28,9 @@ ASSET_MANAGER.downloadAll(() => {
 	
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	gameEngine.addEntity(new Sonic(gameEngine));
+	gameEngine.addEntity(new EnemyCrab(gameEngine));
 	gameEngine.addEntity(new Platform(gameEngine));
+	gameEngine.addEntity(new enemyCrab(gameEngine));
 	gameEngine.addEntity(new TreesAndWaterfall(gameEngine));
 	gameEngine.addEntity(new BackgroundHill(gameEngine));
 	gameEngine.addEntity(new Cloud1(gameEngine));

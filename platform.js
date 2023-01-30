@@ -1,8 +1,8 @@
 class Platform {
   constructor(game) {
     this.position = {
-      x: 200,
-      y: 200
+      x: 400,
+      y: 667
     }
     this.game = game;
     this.width = 400
@@ -17,6 +17,6 @@ class Platform {
   }
 
   draw(ctx) {
-    ctx.drawImage(this.spritesheet, this.position.x, this.position.y, this.width, this.height)
+    ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height)
   }
 }
