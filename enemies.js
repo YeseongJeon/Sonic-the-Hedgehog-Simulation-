@@ -4,7 +4,7 @@ class Enemies {
         this.game = game;
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemiesSonic.png");
-        this.speed = 30;
+        this.speed = 10;
         this.x = x;
         this.y = y;
         this.sonicEnemy = new Animator(this.spritesheet, 0, 4, 75.6, 47, 5, .15, 7, false, true);
@@ -14,8 +14,8 @@ class Enemies {
 
     update() {
         // Move Left
-        this.x -= this.speed * this.game.clockTick;
-        // this.updateBB();
+        this.x -= this.speed * 0.1;
+        this.updateBB();
     };
 
     updateBB() {
