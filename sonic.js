@@ -116,7 +116,7 @@ class Sonic {
     // Jump
     if (this.game.jump) {
       console.log(this.game.jump)
-      this.position.y -= 25 // straight up about 17 pixels
+      this.position.y -= 15 // straight up about 17 pixels //revised
       this.state = 2;
     }
     // Spin

@@ -10,6 +10,7 @@ ASSET_MANAGER.queueDownload("./sprites/realSonicSheet.png");
 
 // platform
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
+ASSET_MANAGER.queueDownload("./sprites/map.png");
 
 ASSET_MANAGER.queueDownload("./sprites/backgroundHill.png");
 ASSET_MANAGER.queueDownload("./sprites/cloud1.png");
