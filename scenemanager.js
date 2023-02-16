@@ -5,6 +5,7 @@ class SceneManager {
     this.game.camera = this; // special entity
     this.x = 0;
     this.sonic = this.game.sonic;
+    this.enemy = this.game.enemy;
 
     this.loadLevelOne();
   }
@@ -74,6 +75,7 @@ class SceneManager {
 
     // let enemy1 = new EnemiesCrab(this.game, 1000, 400);
     // this.game.entities.push(enemy1);
+
     let backgroundHill = new BackgroundHill(gameEngine);
     let treesAndWaterfall = new TreesAndWaterfall(gameEngine);
     let cloud1 = new Cloud1(gameEngine);

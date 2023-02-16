@@ -101,7 +101,7 @@ update() {
   
     if (this.game.jump) {
       console.log(this.game.jump)
-      this.position.y -= 20;
+      this.position.y -= 30;
       this.state = 2;
       this.direction = 0;
       

@@ -6,8 +6,8 @@ const ASSET_MANAGER = new AssetManager();
 // spritesheets
 
 ASSET_MANAGER.queueDownload("./sprites/realSonicSheet.png");
-ASSET_MANAGER.queueDownload("./sprites/bug.png");
 ASSET_MANAGER.queueDownload("./sprites/enemyCrab.png");
+ASSET_MANAGER.queueDownload("./sprites/bug.png");
 // platform
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 
@@ -27,7 +27,7 @@ ASSET_MANAGER.downloadAll(() => {
 	
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	gameEngine.addEntity(new Sonic(gameEngine));
-	// gameEngine.addEntity(new EnemiesCrab(gameEngine));
+	// gameEngine.addEntity(new EnemiesCrab(gameEngine, 650, 570));
 	// gameEngine.addEntity(new Bug(gameEngine));
 	gameEngine.addEntity(new Platform(gameEngine));
 	gameEngine.addEntity(new TreesAndWaterfall(gameEngine));
