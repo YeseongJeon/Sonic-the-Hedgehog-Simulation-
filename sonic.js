@@ -1,24 +1,20 @@
 class Sonic {
 
   constructor(game) {
-      
       this.game = game;
       this.game.sonic = this; // special entity
       this.position = {
         x: 0,
-        y: 0
+        y: 300
       }
       this.velocity = {
         x: 0, //increase as to the right ->
         y: 0 // increase as downwards 
       }
-
-
       this.speed = 1300;
       this.jumpSpeed = 200;
       this.spinSpeed = 1400;
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
-     
       this.updateBB();
 
       this.animations = [];
@@ -26,7 +22,7 @@ class Sonic {
       this.direction = 0;
       this.loadAnimations();
       this.ground = 550;
-      this.isGrounded = false;
+      this.onGround = false;
       this.BB = null;
       this.lastBB = null;
   }
@@ -67,45 +63,25 @@ class Sonic {
     
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
   }
+  updateBB() {
+    this.lastBB = this.BB;
+    this.BB = new BoundingBox(this.position.x, this.position.y, 155, 130, "red");
+    // this.lastBB = new BoundingBox(this.BB.x, this.BB.y, this.BB.width, this.BB.height, this.BB.color);
 
+  }
+  
 update() {
-  const gravity = 0.5;
+  const GRAVITY = 0.5;
   this.updateBB();
   let standingOnPlatform = false;
-
-  // Check if Sonic is standing on a platform
-  this.game.entities.forEach(entity => {
-    if (entity instanceof Platform && entity.BB && this.BB.collide(entity.BB)) {
-        standingOnPlatform = true;
-        this.position.y = entity.y - Platform.width;
-        this.velocity.y = 0;
-    }
-  });
-
-  if (!standingOnPlatform) {
-    this.position.y += this.velocity.y;
-    this.updateBB();
-    this.velocity.y += gravity;
-  } else {
-    this.velocity.y = 0;
-  }
-
-  if (this.position.y > 550) {
-    this.position.y = 550;
-    this.velocity.y = 0;
-  } else
-   if (this.position.y < 0) {
-    this.position.y = 0;
-    this.velocity.y = 0;
-  }
-
+  let canvasHeight = 768;
   // Move left
   if (this.game.left) {
     console.log(this.game.left);
     
     this.position.x -= this.speed * this.game.clockTick;
     this.direction = 1;
-    this.state = 1;
+    this.state = 3;
     console.log(this.position.x);
   }
   // Move right and spinning left
@@ -130,12 +106,9 @@ update() {
       this.direction = 0;
       
   }
+  this.velocity.y += GRAVITY; // Gravity to pull sonic down after jumping
+  this.position.y += this.velocity.y;
 
-  if (this.position.y >= this.ground) {
-      this.position.y = this.ground;
-      this.state = 1;
-      this.direction = 0;
-  }
     // Spin
   if (this.game.spin) {
     console.log(this.game.spin)
@@ -148,22 +121,83 @@ update() {
   if (!this.game.left && !this.game.right && !this.game.jump && !this.game.spin) {
     this.state = 0;
   }
-  // Check if Sonic falls past the bottom of the screen
-  if(this.position.y > 768 && !this.isGrounded) {
-    // Refresh the game
-    window.location.reload();
-  }
-  
+  // If Sonic is not standing on a platform, check if he has fallen off the screen
+  if (!standingOnPlatform) {
+    this.velocity.y += GRAVITY;
+    this.position.y += this.velocity.y;
+
+    // Check if Sonic has fallen off the screen
+    if (this.position.y > canvasHeight) {
+      // Reload the game
+      // window.location.reload();
+      // this.position.y = 300; // start at y position 300
+    }
 }
 
-updateBB() {
-  this.lastBB = this.BB;
-  this.BB = new BoundingBox(this.position.x, this.position.y, 155,130, "red");
+// Update the bounding box for Sonic's new position
+this.updateBB();
+this.collisionCheck();
+}
 
-  console.log("This is this.BB", this.BB);
+collisionCheck() {
+  this.game.entities.forEach(entity => {
+     console.log(entity instanceof Platform)
+    if (entity.BB && this.BB.collide(entity.BB)) { //falling
+      console.log("PRINT HERRRRREEE11111")
 
-};
+      if (this.velocity.y > 0) {
+        console.log("PRINT HERRRRREEE2222")
+        
+        if ((entity instanceof Platform) && (this.lastBB.bottom) <= entity.BB.top) {//landing
+          console.log("PRINT HERRRRREEE3333")
+          this.position.y = entity.BB.top - this.BB.height;
+          this.velocity.y = 0;
+          this.onGround = true;
+          this.updateBB();
+          // return;
+        } else if (entity instanceof Platform && this.lastBB.bottom > entity.BB.top) {
+          this.velocity.y = 0;
+          this.onGround = true;
+          console.log("PRINT HERRRRREEE4444")
+        }
+      } else { // not falling
+        this.onGround = false;
+        console.log("PRINT HERRRRREEE5555")
+      }
 
+      if (this.velocity.y < 0 && this.onGround === false) { //Jumping
+        if ((entity instanceof Platform) && this.lastBB.top >= entity.BB.bottom) {
+          console.log("Collide top of Platform");
+          this.position.y = entity.BB.bottom;
+          this.velocity.y = 0;
+          return;
+        }
+      }
+      
+      //Other cases for hitting Platform
+      if ((entity instanceof Platform)) { 
+        if (this.BB.left <= entity.BB.right 
+            && this.BB.bottom > entity.BB.top
+            && this.velocity.x < 0) { //Touching right side
+          console.log("Touching right");
+          this.position.x = entity.BB.right;
+
+          if (this.velocity.x < 0) this.velocity.x = 0;
+        }
+
+        if (this.BB.right >= entity.BB.left 
+            && this.BB.bottom > entity.BB.top 
+            && this.velocity.x > 0) {  //Touching left side
+          console.log("Touching left");
+          this.position.x = entity.BB.left - this.BB.width;
+
+          if (this.velocity.x > 0) this.velocity.x = 0;
+        }
+      }
+    }
+  });
+  // console.log("Put a message hereeeeeeeeeeee.")
+}
 
   draw(ctx) {
     if(this.state < 0 || this.state > 3) this.state = 0;
@@ -177,5 +211,4 @@ updateBB() {
       this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
   }
-  
 }

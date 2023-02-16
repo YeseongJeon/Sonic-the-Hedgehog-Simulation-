@@ -7,18 +7,19 @@ class Platform {
     };
     this.width = width;
     this.height = height;
-    this.boundingBox = {
-      x: this.position.x,
-      y: this.position.y,
-      width: this.width,
-      height: this.height
-    };
+    
+    // this.BB = new BoundingBox(this.position.x, this.position.y, 155, 130, "red");
+    // this.lastBB = new BoundingBox(this.BB.x, this.BB.y, this.BB.width, this.BB.height, this.BB.color);
+    
+    
+    this.BB = new BoundingBox(this.position.x,this.position.y,this.width, this.height, "lime");
+
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
   }
 
   updateBB() {
-    this.boundingBox.x = this.position.x;
-    this.boundingBox.y = this.position.y;
+    this.BB.x = this.position.x;
+    this.BB.y = this.position.y;
   }
 
   update() {
@@ -31,11 +32,39 @@ class Platform {
     if (PARAMS.DEBUG) {
       ctx.strokeStyle = "lime";
       ctx.strokeRect(
-        this.boundingBox.x - this.game.camera.x,
-        this.boundingBox.y,
-        this.boundingBox.width,
-        this.boundingBox.height
+        this.BB.x - this.game.camera.x,
+        this.BB.y,
+        this.BB.width,
+        this.BB.height
       );
     }
   }
+
+  // constructor(game, x, y, width, height) {
+  //   this.game = game;
+  //   this.position = {
+  //     x: x,
+  //     y: y
+  //   };
+  //   this.width = width;
+  //   this.height = height;
+  //   this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
+
+  //   this.BB = new BoundingBox(this.x, this.y, this.w, PARAMS.BLOCKWIDTH * 2);
+  //   this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
+  //   this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
+
+  // }
+
+  // update() {
+  // }
+
+  // draw(ctx) {
+  //   ctx.drawImage(this.spritesheet, this.position.x - this.game.camera.x, this.position.y, this.width, this.height);
+
+  //   if (PARAMS.DEBUG) {
+  //     ctx.strokeStyle = 'Red';
+  //     ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+  //   }
+  // }
 }
