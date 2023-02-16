@@ -13,8 +13,16 @@ class SceneManager {
   loadLevelOne() {
     this.game.entities = [];
     this.x = 0;
+
     this.sonic = new Sonic(this.game);
     this.game.entities.push(this.sonic);
+
+    this.enemy = new EnemiesCrab(this.game, 650, 570);
+    this.game.entities.push(this.enemy);
+    this.enemy = new Bug(this.game, 700, 540);
+    this.game.entities.push(this.enemy);
+
+
     let platform_1 = new Platform(this.game, 300, 400, 400, 120);
     this.game.entities.push(platform_1);
     let platform1 = new Platform(this.game, 0, 667, 400, 120);
@@ -71,10 +79,6 @@ class SceneManager {
     this.game.entities.push(platform23);
     let platform24 = new Platform(this.game, 7600, 667, 800, 120);
     this.game.entities.push(platform24);
-
-
-    // let enemy1 = new EnemiesCrab(this.game, 1000, 400);
-    // this.game.entities.push(enemy1);
 
     let backgroundHill = new BackgroundHill(gameEngine);
     let treesAndWaterfall = new TreesAndWaterfall(gameEngine);

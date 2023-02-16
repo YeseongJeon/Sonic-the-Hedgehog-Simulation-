@@ -27,8 +27,8 @@ ASSET_MANAGER.downloadAll(() => {
 	
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	gameEngine.addEntity(new Sonic(gameEngine));
-	// gameEngine.addEntity(new EnemiesCrab(gameEngine, 650, 570));
-	// gameEngine.addEntity(new Bug(gameEngine));
+	gameEngine.addEntity(new EnemiesCrab(gameEngine, 650, 570));
+	gameEngine.addEntity(new Bug(gameEngine));
 	gameEngine.addEntity(new Platform(gameEngine));
 	gameEngine.addEntity(new TreesAndWaterfall(gameEngine));
 	gameEngine.addEntity(new BackgroundHill(gameEngine));

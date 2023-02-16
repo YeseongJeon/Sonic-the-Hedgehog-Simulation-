@@ -158,7 +158,6 @@ collisionCheck() {
         }
       } else { // not falling
         this.onGround = false;
- 
       }
 
       if (this.velocity.y < 0 && this.onGround === false) { //Jumping
