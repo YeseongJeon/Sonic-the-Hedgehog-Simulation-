@@ -71,6 +71,9 @@ class SceneManager {
     let platform24 = new Platform(this.game, 7600, 667, 800, 120);
     this.game.entities.push(platform24);
 
+
+    // let enemy1 = new EnemiesCrab(this.game, 1000, 400);
+    // this.game.entities.push(enemy1);
     let backgroundHill = new BackgroundHill(gameEngine);
     let treesAndWaterfall = new TreesAndWaterfall(gameEngine);
     let cloud1 = new Cloud1(gameEngine);
