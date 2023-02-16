@@ -65,7 +65,7 @@ class Sonic {
   }
   updateBB() {
     this.lastBB = this.BB;
-    this.BB = new BoundingBox(this.position.x, this.position.y, 155, 130, "red");
+    this.BB = new BoundingBox(this.position.x+10, this.position.y, 120, 130, "red");
     // this.lastBB = new BoundingBox(this.BB.x, this.BB.y, this.BB.width, this.BB.height, this.BB.color);
 
   }
@@ -80,8 +80,8 @@ update() {
     console.log(this.game.left);
     
     this.position.x -= this.speed * this.game.clockTick;
-    this.direction = 1;
-    this.state = 3;
+    this.direction = 0;
+    this.state = 1;
     console.log(this.position.x);
   }
   // Move right and spinning left
@@ -101,7 +101,7 @@ update() {
   
     if (this.game.jump) {
       console.log(this.game.jump)
-      this.position.y -= 20;
+      this.position.y -= 30;
       this.state = 2;
       this.direction = 0;
       
