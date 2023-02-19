@@ -17,7 +17,7 @@ class SceneManager {
     this.sonic = new Sonic(this.game);
     this.game.entities.push(this.sonic);
 
-    this.enemy = new EnemiesCrab(this.game, 650, 570);
+    this.enemy = new EnemiesCrab(this.game, 650, 560);
     this.game.entities.push(this.enemy);
     this.enemy = new Bug(this.game, 700, 540);
     this.game.entities.push(this.enemy);

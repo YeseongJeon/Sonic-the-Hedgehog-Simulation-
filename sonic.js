@@ -11,12 +11,13 @@ class Sonic {
         x: 0, //increase as to the right ->
         y: 0 // increase as downwards 
       }
-      this.speed = 1300;
+      this.speed = 700;
       this.jumpSpeed = 200;
-      this.spinSpeed = 1400;
+      this.spinSpeed = 600;
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
       this.updateBB();
 
+      this.dead = false;
       this.animations = [];
       this.state = 0;
       this.direction = 0;
@@ -65,7 +66,7 @@ class Sonic {
   }
   updateBB() {
     this.lastBB = this.BB;
-    this.BB = new BoundingBox(this.position.x, this.position.y, 155, 130, "red");
+    this.BB = new BoundingBox(this.position.x + 20, this.position.y, 120, 130, "red");
     // this.lastBB = new BoundingBox(this.BB.x, this.BB.y, this.BB.width, this.BB.height, this.BB.color);
 
   }
@@ -80,8 +81,8 @@ update() {
     console.log(this.game.left);
     
     this.position.x -= this.speed * this.game.clockTick;
-    this.direction = 1;
-    this.state = 3;
+    this.direction = 0;
+    this.state = 1;
     console.log(this.position.x);
   }
   // Move right and spinning left
@@ -94,17 +95,19 @@ update() {
     console.log(this.game.right);
     this.position.x += this.speed * this.game.clockTick;
     this.direction = 0;
-    this.state = 1
+    this.state = 1;
     console.log(this.position.x)
   }
   // Jump
   
-    if (this.game.jump) {
+    if (this.game.jump && !this.game.spin) {
       console.log(this.game.jump)
-      this.position.y -= 30;
-      this.state = 2;
-      this.direction = 0;
-      
+      if(this.onGround){
+        this.velocity.y -= 20;
+        this.state = 2;
+        this.direction = 0;
+      }
+      this.onGround = false;
   }
   this.velocity.y += GRAVITY; // Gravity to pull sonic down after jumping
   this.position.y += this.velocity.y;
@@ -129,7 +132,7 @@ update() {
     // Check if Sonic has fallen off the screen
     if (this.position.y > canvasHeight) {
       // Reload the game
-      // window.location.reload();
+      window.location.reload();
       // this.position.y = 300; // start at y position 300
     }
 }
@@ -146,26 +149,22 @@ collisionCheck() {
       if (this.velocity.y > 0) {
         
         if ((entity instanceof Platform) && (this.lastBB.bottom) <= entity.BB.top) {//landing
+          this.onGround = true;
           this.position.y = entity.BB.top - this.BB.height;
           this.velocity.y = 0;
-          this.onGround = true;
           this.updateBB();
           // return;
-        } else if (entity instanceof Platform && this.lastBB.bottom > entity.BB.top) {
-          this.velocity.y = 0;
-          this.onGround = true;
-         
-        }
-      } else { // not falling
-        this.onGround = false;
+        } 
       }
 
-      if (this.velocity.y < 0 && this.onGround === false) { //Jumping
-        if ((entity instanceof Platform) && this.lastBB.top >= entity.BB.bottom) {
+      if (this.velocity.y < 0) { //w
+        console.log("Collide top of Platform");
+        if ((entity instanceof Platform) 
+        && this.lastBB.top >= entity.BB.bottom
+        && this.BB.collide(entity.BB.bottom)) {
           console.log("Collide top of Platform");
-          this.position.y = entity.BB.bottom;
           this.velocity.y = 0;
-          return;
+          this.state = 0;
         }
       }
       
@@ -189,9 +188,23 @@ collisionCheck() {
           if (this.velocity.x > 0) this.velocity.x = 0;
         }
       }
+
+      //Crab and Bug
+      if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
+            && !entity.dead
+            && this.game.spin // if it's spinning
+            && this.BB.collide(entity.BB)) { 
+              entity.dead = true; //enmie dies
+              this.velocity.y = -35; // bounce
+      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
+            && !entity.dead //if enemy is not dead yet
+            && this.BB.collide(entity.BB)) { // if sonic collides the enemy
+              this.dead = true; // sonic dies
+              console.log("YUUUUUUUHHH");
+              this.velocity.y = -1; 
+      }
     }
   });
-  // console.log("Put a message hereeeeeeeeeeee.")
 }
 
   draw(ctx) {

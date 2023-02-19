@@ -77,7 +77,7 @@ class GameEngine {
                 case "ArrowRight":
                     that.right = true;
                     break;
-                case "KeyX":
+                case "ArrowUp":
                     that.jump = true;
                     break;
                 case "KeyZ":
@@ -94,7 +94,7 @@ class GameEngine {
                 case "ArrowRight":
                     that.right = false;
                     break;
-                case "KeyX":
+                case "ArrowUp":
                     that.jump = false;
                     break;
                 case "KeyZ":
