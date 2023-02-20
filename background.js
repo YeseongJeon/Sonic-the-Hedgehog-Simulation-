@@ -1,13 +1,12 @@
 class BackgroundHill { 
-    constructor(game) {
+    constructor(game, x, y, width, height) {
+        this.game = game;
         this.position = {
-                  x: 0,
-                  y: 192
-                }
-                this.game = game;
-                this.width = 24000
-                this.height = 168
-
+          x: x,
+          y: y
+        };
+        this.width = width;
+        this.height = height;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/backgroundHill.png");
     };
 
@@ -29,15 +28,14 @@ class BackgroundHill {
 
 
 class TreesAndWaterfall { 
-    constructor(game) {
+    constructor(game, x, y, width, height) {
+        this.game = game;
         this.position = {
-                  x: 0,
-                  y: 360
-                }
-                this.game = game;
-                this.width = 24000
-                this.height = 141
-
+          x: x,
+          y: y
+        };
+        this.width = width;
+        this.height = height;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/treesAndWaterfall.png");
     };
 
@@ -55,15 +53,14 @@ class TreesAndWaterfall {
 };
 
 class Cloud1 { 
-    constructor(game) {
+    constructor(game, x, y, width, height) {
+        this.game = game;
         this.position = {
-                  x: 0,
-                  y: 0
-                }
-                this.game = game;
-                this.width = 12000
-                this.height = 96
-
+          x: x,
+          y: y
+        };
+        this.width = width;
+        this.height = height;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud1.png");
     };
 
@@ -80,14 +77,14 @@ class Cloud1 {
     }
 };
 class Cloud2 { 
-    constructor(game) {
+    constructor(game, x, y, width, height) {
+        this.game = game;
         this.position = {
-                  x: 0,
-                  y: 96
-                }
-                this.game = game;
-                this.width = 12000
-                this.height = 48
+          x: x,
+          y: y
+        };
+        this.width = width;
+        this.height = height;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud2.png");
     };
 
@@ -105,14 +102,14 @@ class Cloud2 {
 };
 
 class Cloud3 { 
-   constructor(game) {
+    constructor(game, x, y, width, height) {
+        this.game = game;
         this.position = {
-                  x: 0,
-                  y: 144
-                }
-                this.game = game;
-                this.width = 12000
-                this.height = 48
+          x: x,
+          y: y
+        };
+        this.width = width;
+        this.height = height;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud3.png");
     };
 
@@ -148,4 +145,4 @@ class Water {
         this.animator.drawFrame(this.game.clockTick, ctx, 0, 501, 3);
        
     };
-}
+};

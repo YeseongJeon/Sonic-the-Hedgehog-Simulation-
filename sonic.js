@@ -16,7 +16,8 @@ class Sonic {
       this.spinSpeed = 600;
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
       this.updateBB();
-
+      // this.scenemanager = SceneManager
+      this.gameWon = false;
       this.dead = false;
       this.animations = [];
       this.state = 0;
@@ -29,7 +30,7 @@ class Sonic {
   }
 
   loadAnimations() {
-    for (var i = 0; i < 4; i++) { // four states (idle, running, jumping and spinning)
+    for (var i = 0; i < 5; i++) { // four states (idle, running, jumping and spinning, die)
         this.animations.push([]);
         for (var k = 0; k < 2; k++) { // two directions (right or left)
             this.animations[i].push([]);
@@ -63,6 +64,9 @@ class Sonic {
     // facing left
     
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
+
+    // die animation facing right 
+    this.animations[4][0] = new Animator(this.spritesheet, 385, 547, 42, 48, 1,1, 0, false, true);
   }
   updateBB() {
     this.lastBB = this.BB;
@@ -140,8 +144,19 @@ update() {
 // Update the bounding box for Sonic's new position
 this.updateBB();
 this.collisionCheck();
+this.collideWithFinalEntity();
 }
-
+collideWithFinalEntity() {
+  // Assuming that the final entity is an object with a property 'BB' that holds its bounding box]
+  this.game.entities.forEach(entity => {
+  if (entity.BB && this.BB.collide(entity.BB)) {
+    if (entity instanceof Checkpoint) {
+      console.log("Collide with Checkpoint")
+      this.gameWon = true; /// winning game animation
+    }
+  }
+});
+}
 collisionCheck() {
   this.game.entities.forEach(entity => {
     if (entity.BB && this.BB.collide(entity.BB)) { //falling
@@ -195,17 +210,19 @@ collisionCheck() {
             && this.game.spin // if it's spinning
             && this.BB.collide(entity.BB)) { 
               entity.dead = true; //enmie dies
-              this.velocity.y = -35; // bounce
+              entity.removeFromWorld = true;
+              
       }else if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
             && !entity.dead //if enemy is not dead yet
             && this.BB.collide(entity.BB)) { // if sonic collides the enemy
               this.dead = true; // sonic dies
-              console.log("YUUUUUUUHHH");
-              this.velocity.y = -1; 
+              this.state = 4;
+              this.velocity.y = -10; 
       }
     }
   });
 }
+
 
   draw(ctx) {
     if(this.state < 0 || this.state > 3) this.state = 0;
@@ -218,5 +235,12 @@ collisionCheck() {
       this.game.ctx.strokeStyle = "red";
       this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
+    if(this.gameWon) {
+      ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+      ctx.filllstyle = 'black';
+      ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
+      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/FinishedLevel.png"), 200 , 345, 600, 40);
   }
+  }
+  
 }

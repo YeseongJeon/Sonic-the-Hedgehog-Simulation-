@@ -21,7 +21,7 @@ class GameEngine {
         this.right = false; // right arrow key - Sonic to Run to the Right
         this.jump = false; // X key for Sonic to Jump 
         this.spin = false;  // Z key for Sonic to Spin
-
+        this.enterkey = false; // Enter key to start the game
         this.gamepad = null;
 
         // Options and the Details
@@ -83,6 +83,9 @@ class GameEngine {
                 case "KeyZ":
                     that.spin = true;
                     break;
+                case "Enter":
+                    that.enterkey = true;
+                    break;
             }
         }
         function keyUpListener (e) {
@@ -99,6 +102,9 @@ class GameEngine {
                     break;
                 case "KeyZ":
                     that.spin = false;
+                    break;
+                case "Enter":
+                    that.enterkey = true;
                     break;
             }
         }
@@ -131,6 +137,7 @@ class GameEngine {
         that.right = false;
         that.jump = false;
         that.spin = false;
+        that.enterkey = false;
     }
 
 

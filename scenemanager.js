@@ -6,11 +6,11 @@ class SceneManager {
     this.x = 0;
     this.sonic = this.game.sonic;
     this.enemy = this.game.enemy;
-
+    this.title = true;
     this.loadLevelOne();
   }
-
   loadLevelOne() {
+    if(this.title || this.game.enterykey) {
     this.game.entities = [];
     this.x = 0;
 
@@ -50,7 +50,7 @@ class SceneManager {
     let platform9 = new Platform(this.game, 3600, 667, 400, 120);
     this.game.entities.push(platform9);
     let platform10 = new Platform(this.game, 4100, 667, 800, 120);
-
+    this.game.entities.push(platform10);
     let platform11 = new Platform(this.game, 4400, 400, 400, 120);
     this.game.entities.push(platform11);
     let platform12 = new Platform(this.game, 4200, 667, 400, 120);
@@ -79,33 +79,53 @@ class SceneManager {
     this.game.entities.push(platform23);
     let platform24 = new Platform(this.game, 7600, 667, 800, 120);
     this.game.entities.push(platform24);
+    let checkpoint1 = new Checkpoint(this.game, 8200, 520);
+    this.game.entities.push(checkpoint1);
 
-    let backgroundHill = new BackgroundHill(gameEngine);
-    let treesAndWaterfall = new TreesAndWaterfall(gameEngine);
-    let cloud1 = new Cloud1(gameEngine);
-    let cloud2 = new Cloud2(gameEngine);
-    let cloud3 = new Cloud3(gameEngine);
+    // let backgroundHill = new BackgroundHill(gameEngine);
+    // let treesAndWaterfall = new TreesAndWaterfall(gameEngine);
+    // let cloud1 = new Cloud1(gameEngine);
+    // let cloud2 = new Cloud2(gameEngine);
+    // let cloud3 = new Cloud3(gameEngine);
+
+    // let water = new Water(gameEngine);
+    // this.game.entities.push(backgroundHill, treesAndWaterfall, cloud1, cloud2, cloud3, water);
+    let backgroundHill = new BackgroundHill(this.game, 0, 192, 24000, 168);
+    let treesAndWaterfall = new TreesAndWaterfall(this.game, 0, 360, 24000, 141);
+
+    let cloud1a = new Cloud1(this.game, 0, 0, 12000, 96);
+    let cloud1b = new Cloud1(this.game, 12000, 0, 12000, 96);
+    let cloud2a = new Cloud2(this.game, 0, 96, 12000, 48);
+    let cloud2b = new Cloud2(this.game, 12000, 96, 12000, 48);
+    let cloud3a = new Cloud3(this.game, 0, 144, 12000, 48);
+    let cloud3b = new Cloud3(this.game, 12000, 144, 12000, 48);
 
     let water = new Water(gameEngine);
-    this.game.entities.push(backgroundHill, treesAndWaterfall, cloud1, cloud2, cloud3, water);
+    this.game.entities.push(backgroundHill, treesAndWaterfall, 
+                            cloud1a, cloud1b, cloud2a, cloud2b, cloud3a, cloud3b,
+                            water);
     
-  }
-  
-  loadLevel(level) {
-    switch (level) {
-      case 1:
-        this.loadLevelOne();
-        break;
-      default:
-        console.error("Invalid level number");
     }
   }
 
   update() {
     let midpoint = PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2;
     if(this.x < this.sonic.position.x - midpoint) this.x = this.sonic.position.x - midpoint;
+
+    if(this.title && this.game.enterkey) {
+        this.title = false;
+        this.loadLevelOne();
+    }
   }
 
-  draw() {
-  }
+  draw(ctx) {
+    if(this.title) {
+      ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+      ctx.filllstyle = 'black';
+      ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
+      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/realsoniclogo.png"),200 , 80, 600, 232);
+      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/enterStart.png"), 200, 330,  600, 79);
+      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/groupName.png"),200 , 440, 600, 53);
+    }
+}
 }
