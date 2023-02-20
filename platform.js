@@ -1,48 +1,42 @@
 class Platform {
-  constructor(game) {
-    this.position = {
-      x: 0,
-      y: -2030 //1500
-    }
+  constructor(game, x, y, width, height) {
     this.game = game;
-    this.width = 40000
-    this.height = 3600
+    this.position = {
+      x: x,
+      y: y
+    };
+    this.width = width;
+    this.height = height;
+    
+    // this.BB = new BoundingBox(this.position.x, this.position.y, 155, 130, "red");
+    // this.lastBB = new BoundingBox(this.BB.x, this.BB.y, this.BB.width, this.BB.height, this.BB.color);
+    
+    
+    this.BB = new BoundingBox(this.position.x,this.position.y,this.width, this.height, "lime");
 
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/map.png")
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
   }
- 
 
-  update () {
+  updateBB() {
+    this.BB.x = this.position.x;
+    this.BB.y = this.position.y;
+  }
 
+  update() {
+    this.updateBB();
   }
 
   draw(ctx) {
-    ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height)
+    ctx.drawImage(this.spritesheet, this.position.x - this.game.camera.x, this.position.y, this.width, this.height);
+
+    if (PARAMS.DEBUG) {
+      ctx.strokeStyle = "lime";
+      ctx.strokeRect(
+        this.BB.x - this.game.camera.x,
+        this.BB.y,
+        this.BB.width,
+        this.BB.height
+      );
+    }
   }
 }
-
-// class BackgroundHill { 
-//   constructor(game) {
-//       this.position = {
-//                 x: 0,
-//                 y: 192
-//               }
-//               this.game = game;
-//               this.width = 24000
-//               this.height = 168
-
-//       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/backgroundHill.png");
-//   };
-
-//   update() {
-
-//   };
-
-//   drawMinimap(ctx, mmX, mmY) {
-//   }
-
-//   draw(ctx) {
-//       ctx.drawImage(this.spritesheet, this.position.x-this.game.camera.x, this.position.y, this.width, this.height);
-//                                       // x, y,        frameLocation,framesize x , y, 
-//   }
-// };
