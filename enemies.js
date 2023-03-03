@@ -111,3 +111,40 @@ class Checkpoint {
           }
     }
 }
+
+
+class Ring {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.game = game;
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goalplate.png");
+        this.x = x;
+        this.y = y;
+        this.sonicEnemy = new Animator(this.spritesheet, 0, 0, 32, 48, 1, 1, 0,false, true);
+        this.BB = null;
+        this.updateBB();
+    };
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, 100, 150, "red");
+    }
+
+    update() {
+        this.updateBB();
+        
+    };
+
+    draw(ctx) {
+        if (this.spritesheet) {
+            this.sonicEnemy.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y);
+        } else {
+            console.log("Spritesheet not loaded");
+        }
+
+        if (PARAMS.DEBUG) {
+            this.game.ctx.strokeStyle = "red";
+            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+          }
+    }
+}

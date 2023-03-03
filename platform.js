@@ -40,31 +40,4 @@ class Platform {
     }
   }
 
-  // constructor(game, x, y, width, height) {
-  //   this.game = game;
-  //   this.position = {
-  //     x: x,
-  //     y: y
-  //   };
-  //   this.width = width;
-  //   this.height = height;
-  //   this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
-
-  //   this.BB = new BoundingBox(this.x, this.y, this.w, PARAMS.BLOCKWIDTH * 2);
-  //   this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
-  //   this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
-
-  // }
-
-  // update() {
-  // }
-
-  // draw(ctx) {
-  //   ctx.drawImage(this.spritesheet, this.position.x - this.game.camera.x, this.position.y, this.width, this.height);
-
-  //   if (PARAMS.DEBUG) {
-  //     ctx.strokeStyle = 'Red';
-  //     ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-  //   }
-  // }
 }
