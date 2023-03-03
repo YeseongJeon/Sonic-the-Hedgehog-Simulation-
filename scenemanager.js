@@ -82,6 +82,12 @@ class SceneManager {
     let checkpoint1 = new Checkpoint(this.game, 8200, 520);
     this.game.entities.push(checkpoint1);
 
+
+
+    let ring1 = new Ring(this.game, 400, 590);
+    this.game.entities.push(ring1);
+    let ring2 = new Ring(this.game, 400, 322);
+    this.game.entities.push(ring2);
     // let backgroundHill = new BackgroundHill(gameEngine);
     // let treesAndWaterfall = new TreesAndWaterfall(gameEngine);
     // let cloud1 = new Cloud1(gameEngine);

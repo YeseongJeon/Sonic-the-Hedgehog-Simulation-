@@ -118,16 +118,16 @@ class Ring {
         Object.assign(this, { game, x, y });
         this.game = game;
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goalplate.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/RingReal.png");
         this.x = x;
         this.y = y;
-        this.sonicEnemy = new Animator(this.spritesheet, 0, 0, 32, 48, 1, 1, 0,false, true);
+        this.sonicEnemy = new Animator(this.spritesheet, 2.26, 0, 23.9, 26, 4, 0.075, 0,false, true);
         this.BB = null;
         this.updateBB();
     };
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 100, 150, "red");
+        this.BB = new BoundingBox(this.x, this.y, 77, 80, "red");
     }
 
     update() {

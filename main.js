@@ -13,6 +13,7 @@ ASSET_MANAGER.queueDownload("./sprites/groupName.png");
 ASSET_MANAGER.queueDownload("./sprites/enterStart.png");
 ASSET_MANAGER.queueDownload("./sprites/FinishedLevel.png");
 ASSET_MANAGER.queueDownload("./sprites/goalplate.png");
+ASSET_MANAGER.queueDownload("./sprites/RingReal.png");
 // platform
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 
