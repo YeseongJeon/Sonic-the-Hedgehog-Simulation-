@@ -32,7 +32,7 @@ ASSET_MANAGER.downloadAll(() => {
 	ctx.imageSmoothingEnabled = false;
 	
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
-	gameEngine.addEntity(new Sonic(gameEngine));
+	// gameEngine.addEntity(new Sonic(SceneManager, gameEngine));
 	gameEngine.addEntity(new EnemiesCrab(gameEngine));
 	gameEngine.addEntity(new Bug(gameEngine));
 	gameEngine.addEntity(new Platform(gameEngine));
@@ -44,6 +44,7 @@ ASSET_MANAGER.downloadAll(() => {
 	gameEngine.addEntity(new Water(gameEngine));
 	gameEngine.addEntity(new Checkpoint(gameEngine));
 	gameEngine.addEntity(new SceneManager(gameEngine));
+	gameEngine.addEntity(new Sonic(gameEngine));
 
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;

@@ -7,7 +7,9 @@ class SceneManager {
     this.sonic = this.game.sonic;
     this.enemy = this.game.enemy;
     this.title = true;
+    this.rings = 0;
     this.loadLevelOne();
+    
   }
   loadLevelOne() {
     if(this.title || this.game.enterykey) {
@@ -125,13 +127,13 @@ class SceneManager {
   }
 
   draw(ctx) {
-    if(this.title) {
-      ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
-      ctx.filllstyle = 'black';
-      ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
-      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/realsoniclogo.png"),200 , 80, 600, 232);
-      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/enterStart.png"), 200, 330,  600, 79);
-      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/groupName.png"),200 , 440, 600, 53);
-    }
+    // if(this.title) {
+    //   ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+    //   ctx.filllstyle = 'black';
+    //   ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
+    //   ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/realsoniclogo.png"),200 , 80, 600, 232);
+    //   ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/enterStart.png"), 200, 330,  600, 79);
+    //   ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/groupName.png"),200 , 440, 600, 53);
+    // }
 }
 }

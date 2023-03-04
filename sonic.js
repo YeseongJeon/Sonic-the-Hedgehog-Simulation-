@@ -16,7 +16,7 @@ class Sonic {
       this.spinSpeed = 600;
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
       this.updateBB();
-      // this.scenemanager = SceneManager
+      this.scenemanager = SceneManager
       this.gameWon = false;
       this.dead = false;
       this.animations = [];
@@ -66,7 +66,7 @@ class Sonic {
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
 
     // die animation facing right 
-    this.animations[4][0] = new Animator(this.spritesheet, 385, 547, 42, 48, 1,1, 0, false, true);
+    this.animations[4][0] = new Animator(this.spritesheet, 385, 547, 42, 47, 1, 1, 0, false, true);
   }
   updateBB() {
     this.lastBB = this.BB;
@@ -82,12 +82,12 @@ update() {
   let canvasHeight = 768;
   // Move left
   if (this.game.left) {
-    console.log(this.game.left);
+    // console.log(this.game.left);
     
     this.position.x -= this.speed * this.game.clockTick;
     this.direction = 0;
     this.state = 1;
-    console.log(this.position.x);
+    // console.log(this.position.x);
   }
   // Move right and spinning left
   if (this.game.spin && this.game.left) {
@@ -96,16 +96,16 @@ update() {
   } 
   // Move right
   if (this.game.right) {
-    console.log(this.game.right);
+    // console.log(this.game.right);
     this.position.x += this.speed * this.game.clockTick;
     this.direction = 0;
     this.state = 1;
-    console.log(this.position.x)
+    // console.log(this.position.x)
   }
   // Jump
   
     if (this.game.jump && !this.game.spin) {
-      console.log(this.game.jump)
+      // console.log(this.game.jump)
       if(this.onGround){
         this.velocity.y -= 20;
         this.state = 2;
@@ -118,7 +118,7 @@ update() {
 
     // Spin
   if (this.game.spin) {
-    console.log(this.game.spin)
+    // console.log(this.game.spin)
     this.position.x += this.spinSpeed * this.game.clockTick;
     this.position.y += 10;
     this.state = 3;
@@ -151,7 +151,7 @@ collideWithFinalEntity() {
   this.game.entities.forEach(entity => {
   if (entity.BB && this.BB.collide(entity.BB)) {
     if (entity instanceof Checkpoint) {
-      console.log("Collide with Checkpoint")
+      // console.log("Collide with Checkpoint")
       this.gameWon = true; /// winning game animation
     }
   }
@@ -169,15 +169,32 @@ collisionCheck() {
           this.velocity.y = 0;
           this.updateBB();
           // return;
-        } 
+        }
+        if ((entity instanceof Ring) && (this.lastBB.bottom) <= entity.BB.top) {//landing
+          console.log("Landing on Ring");
+          this.scenemanager.rings++; // increment the rings variable in SceneManager
+          entity.removeFromWorld = true;
+        }  
+        if ((entity instanceof Ring) && (this.lastBB.bottom) <= entity.BB.top && this.BB.collide(entity.BB)) { // colliding from top side
+          console.log("Colliding from top side of Ring");
+          this.scenemanager.rings++;
+          entity.removeFromWorld = true;
+        }
+        if ((entity instanceof Ring) && (this.lastBB.top) >= entity.BB.bottom && this.BB.collide(entity.BB)) { // colliding from bottom side
+          console.log("Colliding from bottom side of Ring");
+          this.scenemanager.rings++;
+          entity.removeFromWorld = true;
+        }
+        
       }
+      
 
       if (this.velocity.y < 0) { //w
-        console.log("Collide top of Platform");
+        // console.log("Collide top of Platform");
         if ((entity instanceof Platform) 
         && this.lastBB.top >= entity.BB.bottom
         && this.BB.collide(entity.BB.bottom)) {
-          console.log("Collide top of Platform");
+          // console.log("Collide top of Platform");
           this.velocity.y = 0;
           this.state = 0;
         }
@@ -188,7 +205,7 @@ collisionCheck() {
         if (this.BB.left <= entity.BB.right 
             && this.BB.bottom > entity.BB.top
             && this.velocity.x < 0) { //Touching right side
-          console.log("Touching right");
+          // console.log("Touching right");
           this.position.x = entity.BB.right;
 
           if (this.velocity.x < 0) this.velocity.x = 0;
@@ -197,13 +214,12 @@ collisionCheck() {
         if (this.BB.right >= entity.BB.left 
             && this.BB.bottom > entity.BB.top 
             && this.velocity.x > 0) {  //Touching left side
-          console.log("Touching left");
+          // console.log("Touching left");
           this.position.x = entity.BB.left - this.BB.width;
 
           if (this.velocity.x > 0) this.velocity.x = 0;
         }
       }
-
       //Crab and Bug
       if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
             && !entity.dead
@@ -219,13 +235,20 @@ collisionCheck() {
               this.state = 4;
               this.velocity.y = -10; 
       }
+
+      if ((entity instanceof Ring)  // Ring BB
+      && this.BB.collide(entity.BB)) { 
+        console.log("Cool Ring Collision")
+        this.scenemanager.rings++;
+        entity.removeFromWorld = true
+      }
     }
   });
 }
 
 
   draw(ctx) {
-    if(this.state < 0 || this.state > 3) this.state = 0;
+    if(this.state < 0 || this.state > 4) this.state = 0;
     let done = this.animations[this.state][this.direction].drawFrame(this.game.clockTick, ctx, this.position.x - this.game.camera.x , this.position.y);
     if (done) {
       this.animations[this.state][this.direction].elapsedTime = 0;
