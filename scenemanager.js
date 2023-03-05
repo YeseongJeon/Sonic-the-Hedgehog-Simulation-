@@ -27,7 +27,7 @@ class SceneManager {
     this.game.entities.push(platform_1);
     let platform1 = new Platform(this.game, 0, 667, 400, 120);
     this.game.entities.push(platform1);
-    let platform2 = new Platform(this.game, 400, 667, 400, 120);
+    let platform2 = new Platform(this.game, 600, 667, 400, 120);
     this.game.entities.push(platform2);
     let platform3 = new Platform(this.game, 800, 667, 400, 120);
     this.game.entities.push(platform3);
@@ -95,14 +95,17 @@ class SceneManager {
 
     let cloud1a = new Cloud1(this.game, 0, 0, 12000, 96);
     let cloud1b = new Cloud1(this.game, 12000, 0, 12000, 96);
+    let cloud1c = new Cloud1(this.game, 24000, 0, 12000, 96);
     let cloud2a = new Cloud2(this.game, 0, 96, 12000, 48);
     let cloud2b = new Cloud2(this.game, 12000, 96, 12000, 48);
+    let cloud2c = new Cloud2(this.game, 24000, 96, 12000, 48);
     let cloud3a = new Cloud3(this.game, 0, 144, 12000, 48);
     let cloud3b = new Cloud3(this.game, 12000, 144, 12000, 48);
+    let cloud3c = new Cloud3(this.game, 24000, 144, 12000, 48);
 
     let water = new Water(gameEngine);
     this.game.entities.push(backgroundHill, treesAndWaterfall, 
-                            cloud1a, cloud1b, cloud2a, cloud2b, cloud3a, cloud3b,
+                            cloud1a, cloud1b, cloud1c, cloud2a, cloud2b, cloud2c, cloud3a, cloud3b, cloud3c,
                             water);
     
     }
@@ -119,13 +122,13 @@ class SceneManager {
   }
 
   draw(ctx) {
-    if(this.title) {
-      ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
-      ctx.filllstyle = 'black';
-      ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
-      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/realsoniclogo.png"),200 , 80, 600, 232);
-      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/enterStart.png"), 200, 330,  600, 79);
-      ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/groupName.png"),200 , 440, 600, 53);
-    }
+    // if(this.title) {
+    //   ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+    //   ctx.filllstyle = 'black';
+    //   ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
+    //   ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/realsoniclogo.png"),200 , 80, 600, 232);
+    //   ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/enterStart.png"), 200, 330,  600, 79);
+    //   ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/groupName.png"),200 , 440, 600, 53);
+    // }
 }
 }

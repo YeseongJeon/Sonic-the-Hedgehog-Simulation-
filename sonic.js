@@ -104,7 +104,7 @@ update() {
   }
   // Jump
   
-    if (this.game.jump && !this.game.spin) {
+    if (this.game.jump && !this.game.spin && !this.dead) {
       console.log(this.game.jump)
 
       if(this.onGround){
@@ -139,6 +139,12 @@ update() {
       window.location.reload();
       // this.position.y = 300; // start at y position 300
     }
+
+    if(this.dead){
+        this.speed = 0; //stops from moving
+        this.state = 4;
+        setTimeout(() => this.velocity.y = 10, 1000); //wait 1 sec to fall
+    }
 }
 
 // Update the bounding box for Sonic's new position
@@ -159,10 +165,9 @@ collideWithFinalEntity() {
 }
 collisionCheck() {
   this.game.entities.forEach(entity => {
-    if (entity.BB && this.BB.collide(entity.BB)) { //falling
+    if (entity.BB && this.BB.collide(entity.BB) && !this.dead) { //falling
 
       if (this.velocity.y > 0) {
-        
         if ((entity instanceof Platform) && (this.lastBB.bottom) <= entity.BB.top) {//landing
           this.onGround = true;
           this.position.y = entity.BB.top - this.BB.height;
@@ -215,17 +220,17 @@ collisionCheck() {
       }else if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
             && !entity.dead //if enemy is not dead yet
             && this.BB.collide(entity.BB)) { // if sonic collides the enemy
-              this.dead = true; // sonic dies
-              this.state = 4;
-              this.velocity.y = -10; 
-      }
+              this.velocity.y = -20;
+              this.dead = true;
+              entity.dead = true; // make the sonic to not detect enemy
+            }   
     }
   });
 }
 
 
   draw(ctx) {
-    if(this.state < 0 || this.state > 3) this.state = 0;
+    if(this.state < 0 || this.state > 4) this.state = 0;
     let done = this.animations[this.state][this.direction].drawFrame(this.game.clockTick, ctx, this.position.x - this.game.camera.x , this.position.y);
     if (done) {
       this.animations[this.state][this.direction].elapsedTime = 0;
@@ -240,7 +245,7 @@ collisionCheck() {
       ctx.filllstyle = 'black';
       ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
       ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/FinishedLevel.png"), 200 , 345, 600, 40);
-  }
+    }
   }
   
 }
