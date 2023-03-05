@@ -2,6 +2,7 @@ class Sonic {
 
   constructor(game) {
       this.game = game;
+      this.rings = 0;
       this.game.sonic = this; // special entity
       this.position = {
         x: 0,
@@ -16,7 +17,7 @@ class Sonic {
       this.spinSpeed = 600;
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/realSonicSheet.png");
       this.updateBB();
-      this.scenemanager = SceneManager
+      // this.scenemanager = SceneManager
       this.gameWon = false;
       this.dead = false;
       this.animations = [];
@@ -147,6 +148,11 @@ this.collisionCheck();
 this.collideWithFinalEntity();
 }
 collideWithFinalEntity() {
+
+  if (typeof this.rings === 'undefined') {
+    this.rings = 0;
+  }
+
   // Assuming that the final entity is an object with a property 'BB' that holds its bounding box]
   this.game.entities.forEach(entity => {
   if (entity.BB && this.BB.collide(entity.BB)) {
@@ -171,18 +177,18 @@ collisionCheck() {
           // return;
         }
         if ((entity instanceof Ring) && (this.lastBB.bottom) <= entity.BB.top) {//landing
-          console.log("Landing on Ring");
-          this.scenemanager.rings++; // increment the rings variable in SceneManager
+          // console.log("Landing on Ring");
+          this.rings++; // increment the rings variable in SceneManager
           entity.removeFromWorld = true;
         }  
         if ((entity instanceof Ring) && (this.lastBB.bottom) <= entity.BB.top && this.BB.collide(entity.BB)) { // colliding from top side
-          console.log("Colliding from top side of Ring");
-          this.scenemanager.rings++;
+          // console.log("Colliding from top side of Ring");
+          this.rings++;
           entity.removeFromWorld = true;
         }
         if ((entity instanceof Ring) && (this.lastBB.top) >= entity.BB.bottom && this.BB.collide(entity.BB)) { // colliding from bottom side
-          console.log("Colliding from bottom side of Ring");
-          this.scenemanager.rings++;
+          // console.log("Colliding from bottom side of Ring");
+          this.rings++;
           entity.removeFromWorld = true;
         }
         
@@ -238,9 +244,10 @@ collisionCheck() {
 
       if ((entity instanceof Ring)  // Ring BB
       && this.BB.collide(entity.BB)) { 
-        console.log("Cool Ring Collision")
-        this.scenemanager.rings++;
+        // console.log("Cool Ring Collision")
+        this.rings++;
         entity.removeFromWorld = true
+        console.log("The number of Rings is: " + this.rings);
       }
     }
   });

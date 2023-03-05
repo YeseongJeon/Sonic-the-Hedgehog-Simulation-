@@ -178,6 +178,7 @@ class GameEngine {
 
     loop() {
         this.clockTick = this.timer.tick();
+        this.timerTick = this.timer.cooltick();
         this.update();
         this.draw();
     };
