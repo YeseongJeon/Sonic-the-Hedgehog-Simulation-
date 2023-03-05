@@ -80,8 +80,24 @@ class SceneManager {
     this.game.entities.push(platform23);
     let platform24 = new Platform(this.game, 7600, 667, 800, 120);
     this.game.entities.push(platform24);
-    let checkpoint1 = new Checkpoint(this.game, 8200, 520);
-    this.game.entities.push(checkpoint1);
+
+    const canvasWidth = 30000;
+    const platformWidth = 400;
+    const platformHeight = 120;
+    const platformGap = 300;
+    let platformX = 7600;
+    let platforms = [];
+
+    while (platformX < canvasWidth) {
+      platformX += platformGap + Math.random() * (platformGap * 2);
+      let platform = new Platform(this.game, platformX, Math.random() * 500 + 100, platformWidth, platformHeight);
+      this.game.entities.push(platform);
+      platforms.push(platform);
+    }
+    
+
+    // let checkpoint1 = new Checkpoint(this.game, 8200, 520);
+    // this.game.entities.push(checkpoint1);
 
 
 
@@ -89,29 +105,22 @@ class SceneManager {
     this.game.entities.push(ring1);
     let ring2 = new Ring(this.game, 400, 322);
     this.game.entities.push(ring2);
-    // let backgroundHill = new BackgroundHill(gameEngine);
-    // let treesAndWaterfall = new TreesAndWaterfall(gameEngine);
-    // let cloud1 = new Cloud1(gameEngine);
-    // let cloud2 = new Cloud2(gameEngine);
-    // let cloud3 = new Cloud3(gameEngine);
-
-    // let water = new Water(gameEngine);
-    // this.game.entities.push(backgroundHill, treesAndWaterfall, cloud1, cloud2, cloud3, water);
     let backgroundHill = new BackgroundHill(this.game, 0, 192, 24000, 168);
     let treesAndWaterfall = new TreesAndWaterfall(this.game, 0, 360, 24000, 141);
-
     let cloud1a = new Cloud1(this.game, 0, 0, 12000, 96);
     let cloud1b = new Cloud1(this.game, 12000, 0, 12000, 96);
+    let cloud1c = new Cloud1(this.game, 24000, 0, 12000, 96);
     let cloud2a = new Cloud2(this.game, 0, 96, 12000, 48);
     let cloud2b = new Cloud2(this.game, 12000, 96, 12000, 48);
+    let cloud2c = new Cloud2(this.game, 24000, 96, 12000, 48);
     let cloud3a = new Cloud3(this.game, 0, 144, 12000, 48);
     let cloud3b = new Cloud3(this.game, 12000, 144, 12000, 48);
+    let cloud3c = new Cloud3(this.game, 24000, 144, 12000, 48);
 
     let water = new Water(gameEngine);
     this.game.entities.push(backgroundHill, treesAndWaterfall, 
-                            cloud1a, cloud1b, cloud2a, cloud2b, cloud3a, cloud3b,
+                            cloud1a, cloud1b, cloud1c, cloud2a, cloud2b, cloud2c, cloud3a, cloud3b, cloud3c,
                             water);
-    
     }
   }
 
