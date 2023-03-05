@@ -77,6 +77,7 @@ class Sonic {
   }
   
 update() {
+  console.log("Sonic is at " + this.position.x + " " + this.position.y)
   const GRAVITY = 0.5;
   this.updateBB();
   let standingOnPlatform = false;
@@ -149,9 +150,9 @@ this.collideWithFinalEntity();
 }
 collideWithFinalEntity() {
 
-  if (typeof this.rings === 'undefined') {
-    this.rings = 0;
-  }
+  // if (typeof this.rings === 'undefined') {
+  //   this.rings = 0;
+  // }
 
   // Assuming that the final entity is an object with a property 'BB' that holds its bounding box]
   this.game.entities.forEach(entity => {
