@@ -8,6 +8,8 @@ const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/realSonicSheet.png");
 ASSET_MANAGER.queueDownload("./sprites/enemyCrab.png");
 ASSET_MANAGER.queueDownload("./sprites/bug.png");
+ASSET_MANAGER.queueDownload("./sprites/bat.png");
+ASSET_MANAGER.queueDownload("./sprites/bee.png");
 ASSET_MANAGER.queueDownload("./sprites/realsoniclogo.png");
 ASSET_MANAGER.queueDownload("./sprites/groupName.png");
 ASSET_MANAGER.queueDownload("./sprites/enterStart.png");
@@ -35,6 +37,8 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(new Sonic(SceneManager, gameEngine));
 	gameEngine.addEntity(new EnemiesCrab(gameEngine));
 	gameEngine.addEntity(new Bug(gameEngine));
+	gameEngine.addEntity(new Bee(gameEngine));
+	gameEngine.addEntity(new Bat(gameEngine));
 	gameEngine.addEntity(new Platform(gameEngine));
 	gameEngine.addEntity(new TreesAndWaterfall(gameEngine));
 	gameEngine.addEntity(new BackgroundHill(gameEngine));

@@ -23,6 +23,10 @@ class SceneManager {
     this.enemy = new Bug(this.game, 700, 540);
     this.game.entities.push(this.enemy);
     
+    this.enemy = new Bat(this.game, 450, 250);
+    this.game.entities.push(this.enemy);
+    this.enemy = new Bee(this.game, 400, 170);
+    this.game.entities.push(this.enemy);
 
     let platform_1 = new Platform(this.game, 300, 400, 400, 120);
     this.game.entities.push(platform_1);
@@ -85,19 +89,60 @@ class SceneManager {
     const platformWidth = 400;
     const platformHeight = 120;
     const platformGap = 300;
+    const ringProbability = 0.5; // probability of a platform having a ring (0.5 = 50% chance)
+    const maxRingsPerPlatform = 3; // maximum number of rings per platform
+    const minRingsPerPlatform = 1; // minimum number of rings per platform
+    const ringWidth = 50;
+    const ringHeight = 50;
+    const enemyProbability = 0.5; // probability of a platform having an enemy (0.5 = 50% chance)
+    const maxEnemiesPerPlatform = 2; // maximum number of enemies per platform
+    const minEnemiesPerPlatform = 1; // minimum number of enemies per platform
+    const enemyWidth = 70; // width of each enemy
+    const enemyHeight = 60; // height of each enemy
+    
     let platformX = 7600;
     let platforms = [];
-
+    
     while (platformX < canvasWidth) {
       platformX += platformGap + Math.random() * (platformGap * 2);
-      let platform = new Platform(this.game, platformX, Math.random() * 500 + 100, platformWidth, platformHeight);
+      let platformY = Math.max(Math.random() * 500 + 100, 350);
+      let platform = new Platform(this.game, platformX, platformY, platformWidth, platformHeight);
       this.game.entities.push(platform);
       platforms.push(platform);
-    }
     
-
-    // let checkpoint1 = new Checkpoint(this.game, 8200, 520);
-    // this.game.entities.push(checkpoint1);
+      // generate rings for this platform
+      if (Math.random() < ringProbability) {
+          let numRings = Math.floor(Math.random() * (maxRingsPerPlatform - minRingsPerPlatform + 1)) + minRingsPerPlatform;
+          let ringX = platformX + platformWidth/2 - (numRings * ringWidth)/2;
+          let ringY = platformY - ringHeight;
+    
+          for (let i = 0; i < numRings; i++) {
+              let ring = new Ring(this.game, ringX + (i * ringWidth), ringY-35, ringWidth, ringHeight);
+              this.game.entities.push(ring);
+          }
+      }
+    
+      // generate enemies for this platform
+      if (Math.random() < enemyProbability) {
+          let numEnemies = Math.floor(Math.random() * (maxEnemiesPerPlatform - minEnemiesPerPlatform + 1)) + minEnemiesPerPlatform;
+          let enemyX = platformX + platformWidth/2 - (numEnemies * enemyWidth)/2;
+          let enemyY = platformY - platformHeight - enemyHeight;
+    
+          for (let i = 0; i < numEnemies; i++) {
+              let enemy = null;
+              if (Math.random() < enemyProbability) {
+                  enemy = new Bee(this.game, enemyX + (i * enemyWidth), enemyY);
+              } else {
+                  enemy = new Bat(this.game, enemyX + (i * enemyWidth), enemyY);
+              }
+              this.game.entities.push(enemy);
+          }
+      }
+    } 
+    
+    
+    let checkpoint1 = new Checkpoint(this.game, 30000, 520);
+    this.game.entities.push(checkpoint1);
 
 
 

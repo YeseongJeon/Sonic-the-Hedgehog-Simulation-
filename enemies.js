@@ -74,6 +74,83 @@ class Bug {
           }
     }
 }
+class Bat {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.game = game;
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bat.png");
+        this.speed = 5;
+        this.x = x;
+        this.y = y;
+        this.sonicEnemy = new Animator(this.spritesheet, 26, 0, 28, 50, 2, .50, 7,false, true);
+        this.BB = null;
+        this.updateBB();
+    };
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, 110, 90, "red");
+    }
+
+    update() {
+        // Move Left
+        this.x -= this.speed * 0.1;
+        this.updateBB();
+        
+    };
+
+    draw(ctx) {
+        if (this.spritesheet) {
+            this.sonicEnemy.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y);
+        } else {
+            console.log("Spritesheet not loaded");
+        }
+
+        if (PARAMS.DEBUG) {
+            this.game.ctx.strokeStyle = "red";
+            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height, 2.5);
+          }
+    }
+}
+
+class Bee {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.game = game;
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bee.png");
+        this.speed = 50;
+        this.x = x;
+        this.y = y;
+        this.sonicEnemy = new Animator(this.spritesheet, 0, 0, 37, 40, 2, .50, 0,false, true);
+        this.BB = null;
+        this.updateBB();
+    };
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, 120, 120, "red");
+    }
+
+    update() {
+        // Move Left
+        this.x += this.speed * 0.1;
+        this.updateBB();
+        
+    };
+
+    draw(ctx) {
+        if (this.spritesheet) {
+            this.sonicEnemy.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y);
+        } else {
+            console.log("Spritesheet not loaded");
+        }
+
+        if (PARAMS.DEBUG) {
+            this.game.ctx.strokeStyle = "red";
+            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height, 1.5);
+          }
+    }
+}
 
 
 class Checkpoint {

@@ -164,12 +164,12 @@ collideWithFinalEntity() {
 
   // Assuming that the final entity is an object with a property 'BB' that holds its bounding box]
   this.game.entities.forEach(entity => {
-  // if (entity.BB && this.BB.collide(entity.BB)) {
-  //   if (entity instanceof Checkpoint) {
-  //     // console.log("Collide with Checkpoint")
-  //     this.gameWon = true; /// winning game animation
-  //   }
-  // }
+  if (entity.BB && this.BB.collide(entity.BB)) {
+    if (entity instanceof Checkpoint) {
+      // console.log("Collide with Checkpoint")
+      this.gameWon = true; /// winning game animation
+    }
+  }
 });
 }
 collisionCheck() {
@@ -235,14 +235,14 @@ collisionCheck() {
           if (this.velocity.x > 0) this.velocity.x = 0;
         }
       }
-      if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
+      if ((entity instanceof EnemiesCrab || entity instanceof Bug ||  entity instanceof Bee || entity instanceof Bat) //Crab or Bug BB
             && !entity.dead
             && this.game.spin // if it's spinning
             && this.BB.collide(entity.BB)) { 
               entity.dead = true; //enmie dies
               entity.removeFromWorld = true;
               
-      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
+      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug || entity instanceof Bee || entity instanceof Bat) //Crab or Bug BB
             && !entity.dead //if enemy is not dead yet
             && this.BB.collide(entity.BB)) { // if sonic collides the enemy
               this.velocity.y = -20;
