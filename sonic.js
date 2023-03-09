@@ -2,6 +2,7 @@ class Sonic {
 
   constructor(game) {
       this.game = game;
+      this.rings = 0;
       this.game.sonic = this; // special entity
       this.position = {
         x: 0,
@@ -66,7 +67,7 @@ class Sonic {
     this.animations[3][1] = new Animator(this.spritesheet, 746, 427, -47, 40, 10, 0.08, 0, false, true);
 
     // die animation facing right 
-    this.animations[4][0] = new Animator(this.spritesheet, 385, 547, 42, 48, 1,1, 0, false, true);
+    this.animations[4][0] = new Animator(this.spritesheet, 385, 547, 42, 47, 1, 1, 0, false, true);
   }
   updateBB() {
     this.lastBB = this.BB;
@@ -80,14 +81,16 @@ update() {
   this.updateBB();
   let standingOnPlatform = false;
   let canvasHeight = 768;
+  // console.log("Sonic is at " + this.position.x + " " + this.position.y)
+  // console.log("canvas height " + canvasHeight)
   // Move left
   if (this.game.left) {
-    console.log(this.game.left);
+    // console.log(this.game.left);
     
     this.position.x -= this.speed * this.game.clockTick;
     this.direction = 0;
     this.state = 1;
-    console.log(this.position.x);
+    // console.log(this.position.x);
   }
   // Move right and spinning left
   if (this.game.spin && this.game.left) {
@@ -96,29 +99,30 @@ update() {
   } 
   // Move right
   if (this.game.right) {
-    console.log(this.game.right);
+    // console.log(this.game.right);
     this.position.x += this.speed * this.game.clockTick;
     this.direction = 0;
     this.state = 1;
-    console.log(this.position.x)
+    // console.log(this.position.x)
   }
   // Jump
-  
-    if (this.game.jump && !this.game.spin && !this.dead) {
-      console.log(this.game.jump)
+    
+  if (this.game.jump && !this.dead) { //!this.game.spin taken out
+    console.log(this.game.jump)
 
-      if(this.onGround){
-        this.velocity.y -= 20;
-        this.state = 2;
-        this.direction = 0;
-      }
-      this.onGround = false;
+    if(this.onGround){
+      this.velocity.y -= 20;
+      this.state = 2;
+      this.direction = 0;
+    }
+    this.onGround = false;
   }
+
   this.velocity.y += GRAVITY; // Gravity to pull sonic down after jumping
   this.position.y += this.velocity.y;
     // Spin
   if (this.game.spin) {
-    console.log(this.game.spin)
+    // console.log(this.game.spin)
     this.position.x += this.spinSpeed * this.game.clockTick;
     this.position.y += 10;
     this.state = 3;
@@ -145,27 +149,28 @@ update() {
         this.state = 4;
         setTimeout(() => this.velocity.y = 10, 1000); //wait 1 sec to fall
     }
-}
+  }
 
-// Update the bounding box for Sonic's new position
-this.updateBB();
-this.collisionCheck();
-this.collideWithFinalEntity();
+  // Update the bounding box for Sonic's new position
+  this.updateBB();
+  this.collisionCheck();
+  this.collideWithFinalEntity();
 }
 collideWithFinalEntity() {
+
   // Assuming that the final entity is an object with a property 'BB' that holds its bounding box]
   this.game.entities.forEach(entity => {
-  if (entity.BB && this.BB.collide(entity.BB)) {
-    if (entity instanceof Checkpoint) {
-      console.log("Collide with Checkpoint")
-      this.gameWon = true; /// winning game animation
+   if (entity.BB && this.BB.collide(entity.BB)) {
+      if (entity instanceof Checkpoint) {
+        this.gameWon = true; /// winning game animation
+      }
     }
-  }
-});
+  });
 }
 collisionCheck() {
   this.game.entities.forEach(entity => {
-    if (entity.BB && this.BB.collide(entity.BB) && !this.dead) { //falling
+
+    if (entity.BB && this.BB.collide(entity.BB)&& !this.dead) { //falling
 
       if (this.velocity.y > 0) {
         if ((entity instanceof Platform) && (this.lastBB.bottom) <= entity.BB.top) {//landing
@@ -174,15 +179,16 @@ collisionCheck() {
           this.velocity.y = 0;
           this.updateBB();
           // return;
-        } 
+        }
       }
+      
 
-      if (this.velocity.y < 0) { //w
-        console.log("Collide top of Platform");
+      if (this.velocity.y < 0) { 
+        // console.log("Collide top of Platform");
         if ((entity instanceof Platform) 
         && this.lastBB.top >= entity.BB.bottom
         && this.BB.collide(entity.BB.bottom)) {
-          console.log("Collide top of Platform");
+          // console.log("Collide top of Platform");
           this.velocity.y = 0;
           this.state = 0;
         }
@@ -193,7 +199,7 @@ collisionCheck() {
         if (this.BB.left <= entity.BB.right 
             && this.BB.bottom > entity.BB.top
             && this.velocity.x < 0) { //Touching right side
-          console.log("Touching right");
+          // console.log("Touching right");
           this.position.x = entity.BB.right;
 
           if (this.velocity.x < 0) this.velocity.x = 0;
@@ -202,29 +208,36 @@ collisionCheck() {
         if (this.BB.right >= entity.BB.left 
             && this.BB.bottom > entity.BB.top 
             && this.velocity.x > 0) {  //Touching left side
-          console.log("Touching left");
+          // console.log("Touching left");
           this.position.x = entity.BB.left - this.BB.width;
 
           if (this.velocity.x > 0) this.velocity.x = 0;
         }
       }
 
-      //Crab and Bug
-      if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
+      //enimies collision
+      if ((entity instanceof EnemiesCrab || entity instanceof Bug ||  entity instanceof Bee || entity instanceof Bat) //Kills Crab or Bug BB
             && !entity.dead
             && this.game.spin // if it's spinning
             && this.BB.collide(entity.BB)) { 
               entity.dead = true; //enmie dies
-              entity.removeFromWorld = true;
+              entity.removeFromWorld = true; 
               
-      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug) //Crab or Bug BB
+      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug || entity instanceof Bee || entity instanceof Bat) //Dies from Crab or Bug BB
             && !entity.dead //if enemy is not dead yet
             && this.BB.collide(entity.BB)) { // if sonic collides the enemy
               this.velocity.y = -20;
               this.dead = true;
               entity.dead = true; // make the sonic to not detect enemy
-            }   
+            }
     }
+
+    //rings collision
+    if ((entity instanceof Ring) && !this.dead && this.BB.collide(entity.BB)){ 
+      this.rings++;
+      entity.removeFromWorld = true;
+    }
+
   });
 }
 
