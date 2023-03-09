@@ -87,7 +87,7 @@ class SceneManager {
     const canvasWidth = 30000;
     const platformWidth = 400;
     const platformHeight = 120;
-    const platformGap = 300;
+    const platformGap = 270;
     const ringProbability = 0.5; // probability of a platform having a ring (0.5 = 50% chance)
     const maxRingsPerPlatform = 3; // maximum number of rings per platform
     const minRingsPerPlatform = 1; // minimum number of rings per platform
@@ -138,12 +138,10 @@ class SceneManager {
           }
       }
     } 
-    
-    
-    let checkpoint1 = new Checkpoint(this.game, 30000, 520);
+    let platformfinal = new Platform(this.game, 30400, 667, 800, 120);
+    this.game.entities.push(platformfinal);
+    let checkpoint1 = new Checkpoint(this.game, 30700, 520);
     this.game.entities.push(checkpoint1);
-
-
 
     let ring1 = new Ring(this.game, 400, 590);
     this.game.entities.push(ring1);

@@ -77,6 +77,7 @@ class Sonic {
   }
   
 update() {
+  console.log("Sonic is at" + this.position.x);
   const GRAVITY = 0.5;
   this.updateBB();
   let standingOnPlatform = false;
@@ -108,7 +109,7 @@ update() {
   // Jump
   
     
-  if (this.game.jump && !this.game.spin && !this.dead) {
+  if (this.game.jump  && !this.dead) {
     console.log(this.game.jump)
 
     if(this.onGround){
