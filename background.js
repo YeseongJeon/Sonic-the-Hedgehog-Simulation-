@@ -23,10 +23,6 @@ class BackgroundHill {
     }
 };
 
-
-
-
-
 class TreesAndWaterfall { 
     constructor(game, x, y, width, height) {
         this.game = game;

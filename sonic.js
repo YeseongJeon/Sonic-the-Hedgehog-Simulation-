@@ -107,7 +107,6 @@ update() {
     // console.log(this.position.x)
   }
   // Jump
-  
     
   if (this.game.jump  && !this.dead) {
     console.log(this.game.jump)
@@ -118,10 +117,10 @@ update() {
       this.direction = 0;
     }
     this.onGround = false;
-}
+  }
+
   this.velocity.y += GRAVITY; // Gravity to pull sonic down after jumping
   this.position.y += this.velocity.y;
-
     // Spin
   if (this.game.spin) {
     // console.log(this.game.spin)
@@ -145,40 +144,36 @@ update() {
       window.location.reload();
       // this.position.y = 300; // start at y position 300
     }
-}
-if(this.dead){
-  this.speed = 0; //stops from moving
-  this.state = 4;
-  setTimeout(() => this.velocity.y = 10, 1000); //wait 1 sec to fall
-}
 
-// Update the bounding box for Sonic's new position
-this.updateBB();
-this.collisionCheck();
-this.collideWithFinalEntity();
+    if(this.dead){
+        this.speed = 0; //stops from moving
+        this.state = 4;
+        setTimeout(() => this.velocity.y = 10, 1000); //wait 1 sec to fall
+    }
+  }
+
+  // Update the bounding box for Sonic's new position
+  this.updateBB();
+  this.collisionCheck();
+  this.collideWithFinalEntity();
 }
 collideWithFinalEntity() {
 
-  // if (typeof this.rings === 'undefined') {
-  //   this.rings = 0;
-  // }
-
   // Assuming that the final entity is an object with a property 'BB' that holds its bounding box]
   this.game.entities.forEach(entity => {
-  if (entity.BB && this.BB.collide(entity.BB)) {
-    if (entity instanceof Checkpoint) {
-      // console.log("Collide with Checkpoint")
-      this.gameWon = true; /// winning game animation
+   if (entity.BB && this.BB.collide(entity.BB)) {
+      if (entity instanceof Checkpoint) {
+        this.gameWon = true; /// winning game animation
+      }
     }
-  }
-});
+  });
 }
 collisionCheck() {
   this.game.entities.forEach(entity => {
+
     if (entity.BB && this.BB.collide(entity.BB)&& !this.dead) { //falling
 
       if (this.velocity.y > 0) {
-        
         if ((entity instanceof Platform) && (this.lastBB.bottom) <= entity.BB.top) {//landing
           this.onGround = true;
           this.position.y = entity.BB.top - this.BB.height;
@@ -186,79 +181,78 @@ collisionCheck() {
           this.updateBB();
           // return;
         }
-        if ((entity instanceof Ring) && (this.lastBB.bottom) <= entity.BB.top) {//landing
-          // console.log("Landing on Ring");
-          this.rings++; // increment the rings variable in SceneManager
-          entity.removeFromWorld = true;
-        }  
-        if ((entity instanceof Ring) && (this.lastBB.bottom) <= entity.BB.top && this.BB.collide(entity.BB)) { // colliding from top side
-          // console.log("Colliding from top side of Ring");
-          this.rings++;
-          entity.removeFromWorld = true;
-        }
-        if ((entity instanceof Ring) && (this.lastBB.top) >= entity.BB.bottom && this.BB.collide(entity.BB)) { // colliding from bottom side
-          // console.log("Colliding from bottom side of Ring");
-          this.rings++;
-          entity.removeFromWorld = true;
-        }
-        
       }
       
 
-      if (this.velocity.y < 0) { //w
-        // console.log("Collide top of Platform");
-        if ((entity instanceof Platform) 
-        && this.lastBB.top >= entity.BB.bottom
-        && this.BB.collide(entity.BB.bottom)) {
+      if (this.velocity.y < 0) { //when its on the air
+        if ((entity instanceof Platform) && (this.lastBB.top) >= entity.BB.bottom) { //hitting bottom of platform
           // console.log("Collide top of Platform");
           this.velocity.y = 0;
           this.state = 0;
         }
       }
       
+      // if(this.velocity.x > 0){ /////////// needs to ask a question ///////////
+      //   // hiting left of plafrom, right side of sonic
+      //   if((entity instanceof Platform) && (this.lastBB.right) >= entity.BB.left){
+      //     console.log("Collide left of Platform");
+      //     this.velocity.x = 0;
+      //   }
+      // }
+  
+      // if(this.velocity.x < 0){
+      //    // hiting right of plafrom, left side of sonic
+      //    if((entity instanceof Platform) && (this.lastBB.left) <= entity.BB.right){
+      //     console.log("Collide right of Platform");
+      //     this.velocity.x = 0;
+      //   }
+      // }
+
       //Other cases for hitting Platform
-      if ((entity instanceof Platform)) { 
-        if (this.BB.left <= entity.BB.right 
-            && this.BB.bottom > entity.BB.top
-            && this.velocity.x < 0) { //Touching right side
-          // console.log("Touching right");
-          this.position.x = entity.BB.right;
+      // if ((entity instanceof Platform)) { 
+      //   if (this.BB.left <= entity.BB.right 
+      //       && this.BB.bottom > entity.BB.top
+      //       && this.velocity.x < 0) { //Touching right side
+      //     console.log("Touching right");
+      //     this.position.x = entity.BB.right;
 
-          if (this.velocity.x < 0) this.velocity.x = 0;
-        }
+      //     if (this.velocity.x < 0) this.velocity.x = 0;
+      //   }
 
-        if (this.BB.right >= entity.BB.left 
-            && this.BB.bottom > entity.BB.top 
-            && this.velocity.x > 0) {  //Touching left side
-          // console.log("Touching left");
-          this.position.x = entity.BB.left - this.BB.width;
+      //   if (this.BB.right >= entity.BB.left 
+      //       && this.BB.bottom > entity.BB.top 
+      //       && this.velocity.x > 0) {  //Touching left side
+      //     console.log("Touching left");
+      //     this.position.x = entity.BB.left - this.BB.width;
 
-          if (this.velocity.x > 0) this.velocity.x = 0;
-        }
-      }
-      if ((entity instanceof EnemiesCrab || entity instanceof Bug ||  entity instanceof Bee || entity instanceof Bat) //Crab or Bug BB
+      //     if (this.velocity.x > 0) this.velocity.x = 0;
+      //   }
+      // }
+
+      //enimies collision
+      if ((entity instanceof EnemiesCrab || entity instanceof Bug ||  entity instanceof Bee || entity instanceof Bat) //Kills Crab or Bug BB
             && !entity.dead
             && this.game.spin // if it's spinning
             && this.BB.collide(entity.BB)) { 
               entity.dead = true; //enmie dies
-              entity.removeFromWorld = true;
+              entity.removeFromWorld = true; 
               
-      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug || entity instanceof Bee || entity instanceof Bat) //Crab or Bug BB
+      }else if ((entity instanceof EnemiesCrab || entity instanceof Bug || entity instanceof Bee || entity instanceof Bat) //Dies from Crab or Bug BB
             && !entity.dead //if enemy is not dead yet
             && this.BB.collide(entity.BB)) { // if sonic collides the enemy
+              // console.log("hit");
               this.velocity.y = -20;
               this.dead = true;
               entity.dead = true; // make the sonic to not detect enemy
-            }  
-
-      if ((entity instanceof Ring)  // Ring BB
-      && this.BB.collide(entity.BB)) { 
-        // console.log("Cool Ring Collision")
-        this.rings++;
-        entity.removeFromWorld = true
-        console.log("The number of Rings is: " + this.rings);
-      }
+            }
     }
+
+    //rings collision
+    if ((entity instanceof Ring) && !this.dead && this.BB.collide(entity.BB)){ 
+      this.rings++;
+      entity.removeFromWorld = true;
+    }
+
   });
 }
 
@@ -279,7 +273,7 @@ collisionCheck() {
       ctx.filllstyle = 'black';
       ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height)
       ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/FinishedLevel.png"), 200 , 345, 600, 40);
-  }
+    }
   }
   
 }
