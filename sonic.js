@@ -183,37 +183,50 @@ collisionCheck() {
       }
       
 
-      if (this.velocity.y < 0) { 
-        // console.log("Collide top of Platform");
-        if ((entity instanceof Platform) 
-        && this.lastBB.top >= entity.BB.bottom
-        && this.BB.collide(entity.BB.bottom)) {
+      if (this.velocity.y < 0) { //when its on the air
+        if ((entity instanceof Platform) && (this.lastBB.top) >= entity.BB.bottom) { //hitting bottom of platform
           // console.log("Collide top of Platform");
           this.velocity.y = 0;
           this.state = 0;
         }
       }
       
+      // if(this.velocity.x > 0){ /////////// needs to ask a question ///////////
+      //   // hiting left of plafrom, right side of sonic
+      //   if((entity instanceof Platform) && (this.lastBB.right) >= entity.BB.left){
+      //     console.log("Collide left of Platform");
+      //     this.velocity.x = 0;
+      //   }
+      // }
+  
+      // if(this.velocity.x < 0){
+      //    // hiting right of plafrom, left side of sonic
+      //    if((entity instanceof Platform) && (this.lastBB.left) <= entity.BB.right){
+      //     console.log("Collide right of Platform");
+      //     this.velocity.x = 0;
+      //   }
+      // }
+
       //Other cases for hitting Platform
-      if ((entity instanceof Platform)) { 
-        if (this.BB.left <= entity.BB.right 
-            && this.BB.bottom > entity.BB.top
-            && this.velocity.x < 0) { //Touching right side
-          // console.log("Touching right");
-          this.position.x = entity.BB.right;
+      // if ((entity instanceof Platform)) { 
+      //   if (this.BB.left <= entity.BB.right 
+      //       && this.BB.bottom > entity.BB.top
+      //       && this.velocity.x < 0) { //Touching right side
+      //     console.log("Touching right");
+      //     this.position.x = entity.BB.right;
 
-          if (this.velocity.x < 0) this.velocity.x = 0;
-        }
+      //     if (this.velocity.x < 0) this.velocity.x = 0;
+      //   }
 
-        if (this.BB.right >= entity.BB.left 
-            && this.BB.bottom > entity.BB.top 
-            && this.velocity.x > 0) {  //Touching left side
-          // console.log("Touching left");
-          this.position.x = entity.BB.left - this.BB.width;
+      //   if (this.BB.right >= entity.BB.left 
+      //       && this.BB.bottom > entity.BB.top 
+      //       && this.velocity.x > 0) {  //Touching left side
+      //     console.log("Touching left");
+      //     this.position.x = entity.BB.left - this.BB.width;
 
-          if (this.velocity.x > 0) this.velocity.x = 0;
-        }
-      }
+      //     if (this.velocity.x > 0) this.velocity.x = 0;
+      //   }
+      // }
 
       //enimies collision
       if ((entity instanceof EnemiesCrab || entity instanceof Bug ||  entity instanceof Bee || entity instanceof Bat) //Kills Crab or Bug BB
@@ -226,6 +239,7 @@ collisionCheck() {
       }else if ((entity instanceof EnemiesCrab || entity instanceof Bug || entity instanceof Bee || entity instanceof Bat) //Dies from Crab or Bug BB
             && !entity.dead //if enemy is not dead yet
             && this.BB.collide(entity.BB)) { // if sonic collides the enemy
+              // console.log("hit");
               this.velocity.y = -20;
               this.dead = true;
               entity.dead = true; // make the sonic to not detect enemy

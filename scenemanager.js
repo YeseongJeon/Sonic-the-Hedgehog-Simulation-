@@ -28,6 +28,7 @@ class SceneManager {
     this.enemy = new Bee(this.game, 400, 170);
     this.game.entities.push(this.enemy);
     let platform_1 = new Platform(this.game, 300, 400, 400, 120);
+    // let platform_1 = new Platform(this.game, 300, 500, 400, 120);
     this.game.entities.push(platform_1);
     let platform1 = new Platform(this.game, 0, 667, 400, 120);
     this.game.entities.push(platform1);
@@ -180,7 +181,7 @@ class SceneManager {
 
     if(this.title && this.game.enterkey) {
         this.title = false;
-        this.loadLevelOne();
+        // this.loadLevelOne();
     }
   }
 
