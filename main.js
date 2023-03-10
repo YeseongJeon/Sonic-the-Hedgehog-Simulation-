@@ -4,7 +4,6 @@ const ASSET_MANAGER = new AssetManager();
 
 
 // spritesheets
-
 ASSET_MANAGER.queueDownload("./sprites/realSonicSheet.png");
 ASSET_MANAGER.queueDownload("./sprites/enemyCrab.png");
 ASSET_MANAGER.queueDownload("./sprites/bug.png");
@@ -35,21 +34,7 @@ ASSET_MANAGER.downloadAll(() => {
 	ctx.imageSmoothingEnabled = false;
 	
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
-	// gameEngine.addEntity(new Sonic(SceneManager, gameEngine));
-	gameEngine.addEntity(new EnemiesCrab(gameEngine));
-	gameEngine.addEntity(new Bug(gameEngine));
-	gameEngine.addEntity(new Bee(gameEngine));
-	gameEngine.addEntity(new Bat(gameEngine));
-	gameEngine.addEntity(new Platform(gameEngine));
-	gameEngine.addEntity(new TreesAndWaterfall(gameEngine));
-	gameEngine.addEntity(new BackgroundHill(gameEngine));
-	gameEngine.addEntity(new Cloud1(gameEngine));
-	gameEngine.addEntity(new Cloud2(gameEngine));
-	gameEngine.addEntity(new Cloud3(gameEngine));
-	gameEngine.addEntity(new Water(gameEngine));
-	gameEngine.addEntity(new Checkpoint(gameEngine));
 	gameEngine.addEntity(new SceneManager(gameEngine));
-	gameEngine.addEntity(new Sonic(gameEngine));
 
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;

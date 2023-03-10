@@ -7,28 +7,28 @@ class SceneManager {
     this.sonic = this.game.sonic;
     this.enemy = this.game.enemy;
     this.title = true;
-    this.loadLevelOne();
     
   }
   loadLevelOne() {
-    if(this.title || this.game.enterykey) {
     this.game.entities = [];
     this.x = 0;
 
+    //sonic entity
     this.sonic = new Sonic(this.game);
     this.game.entities.push(this.sonic);
-
+    
+    //enemy entities
     this.enemy = new EnemiesCrab(this.game, 650, 560);
     this.game.entities.push(this.enemy);
     this.enemy = new Bug(this.game, 700, 540);
     this.game.entities.push(this.enemy);
-    
     this.enemy = new Bat(this.game, 450, 250);
     this.game.entities.push(this.enemy);
     this.enemy = new Bee(this.game, 400, 170);
     this.game.entities.push(this.enemy);
+
+    //platform entities for beginnings
     let platform_1 = new Platform(this.game, 300, 400, 400, 120);
-    // let platform_1 = new Platform(this.game, 300, 500, 400, 120);
     this.game.entities.push(platform_1);
     let platform1 = new Platform(this.game, 0, 667, 400, 120);
     this.game.entities.push(platform1);
@@ -85,11 +85,18 @@ class SceneManager {
     let platform24 = new Platform(this.game, 7600, 667, 800, 120);
     this.game.entities.push(platform24);
 
-    const canvasWidth = 30000;
+
+    //ring entities for beginning
+    let ring1 = new Ring(this.game, 300, 590);
+    this.game.entities.push(ring1);
+    let ring2 = new Ring(this.game, 400, 322);
+    this.game.entities.push(ring2);
+
+    const canvasWidth = 15000;
     const platformWidth = 400;
     const platformHeight = 120;
     const platformGap = 270;
-    const ringProbability = 0.5; // probability of a platform having a ring (0.5 = 50% chance)
+    const ringProbability = 0.7; // probability of a platform having a ring (0.5 = 50% chance)
     const maxRingsPerPlatform = 3; // maximum number of rings per platform
     const minRingsPerPlatform = 1; // minimum number of rings per platform
     const ringWidth = 50;
@@ -138,17 +145,15 @@ class SceneManager {
               this.game.entities.push(enemy);
           }
       }
-    } 
-    let platformfinal = new Platform(this.game, 30400, 667, 800, 120);
+    }
+
+      
+    let platformfinal = new Platform(this.game, 15400, 667, 800, 120);
     this.game.entities.push(platformfinal);
-    let checkpoint1 = new Checkpoint(this.game, 30700, 520);
-
+    let checkpoint1 = new Checkpoint(this.game, 15700, 520);
     this.game.entities.push(checkpoint1);
-
-    let ring1 = new Ring(this.game, 400, 590);
-    this.game.entities.push(ring1);
-    let ring2 = new Ring(this.game, 400, 322);
-    this.game.entities.push(ring2);
+    
+    //backgound entities
     let backgroundHill = new BackgroundHill(this.game, 0, 192, 24000, 168);
     let treesAndWaterfall = new TreesAndWaterfall(this.game, 0, 360, 24000, 141);
     let cloud1a = new Cloud1(this.game, 0, 0, 12000, 96);
@@ -163,24 +168,28 @@ class SceneManager {
     let cloud3b = new Cloud3(this.game, 12000, 144, 12000, 48);
     let cloud3c = new Cloud3(this.game, 24000, 144, 12000, 48);
     let cloud3d = new Cloud3(this.game, 36000, 144, 12000, 48);
-
+   
     let water = new Water(gameEngine);
     this.game.entities.push(backgroundHill, treesAndWaterfall, 
                             cloud1a, cloud1b, cloud1c, cloud1d,
                             cloud2a, cloud2b, cloud2c, cloud2d,
                             cloud3a, cloud3b, cloud3c, cloud3d,
                             water);
-    }
   }
 
   update() {
-    let midpoint = PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2;
-    if(this.x < this.sonic.position.x - midpoint) this.x = this.sonic.position.x - midpoint;
 
     if(this.title && this.game.enterkey) {
+        this.game.timer.gameTime = 0;
         this.title = false;
-        // this.loadLevelOne();
+        this.loadLevelOne();
     }
+
+    if(this.sonic){
+      let midpoint = PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2;
+      if(this.x < this.sonic.position.x - midpoint) this.x = this.sonic.position.x - midpoint;
+    }
+
   }
 
   draw(ctx) {
@@ -188,15 +197,16 @@ class SceneManager {
       ctx.font = '36px "Press Start 2P"';
       ctx.fillStyle = "Yellow";
 
-      ctx.fillText("TIME  ", 3, 100);
-      ctx.fillText(this.game.timerTick, 200 , 100);
-      ctx.fillText("RINGS  ", 6.5 , 50);
-      ctx.fillText(this.sonic.rings, 250 , 50);
+      if(!this.title){
+        ctx.fillText("TIME  ", 3, 100);
+        ctx.fillText(this.game.timerTick, 200 , 100);
+        ctx.fillText("RINGS  ", 6.5 , 50);
+        ctx.fillText(this.sonic.rings, 250 , 50);
+      }
     } else {
       console.error('Font not loaded');
     }
     
-
     if(this.title) {
       ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
       ctx.filllstyle = 'black';
