@@ -26,8 +26,6 @@ class Sonic {
       this.loadAnimations();
       this.ground = 550;
       this.onGround = false;
-      this.BB = null;
-      this.lastBB = null;
   }
 
   loadAnimations() {
@@ -190,43 +188,6 @@ collisionCheck() {
           this.state = 0;
         }
       }
-      
-      // if(this.velocity.x > 0){ /////////// needs to ask a question ///////////
-      //   // hiting left of plafrom, right side of sonic
-      //   if((entity instanceof Platform) && (this.lastBB.right) >= entity.BB.left){
-      //     console.log("Collide left of Platform");
-      //     this.velocity.x = 0;
-      //   }
-      // }
-  
-      // if(this.velocity.x < 0){
-      //    // hiting right of plafrom, left side of sonic
-      //    if((entity instanceof Platform) && (this.lastBB.left) <= entity.BB.right){
-      //     console.log("Collide right of Platform");
-      //     this.velocity.x = 0;
-      //   }
-      // }
-
-      //Other cases for hitting Platform
-      // if ((entity instanceof Platform)) { 
-      //   if (this.BB.left <= entity.BB.right 
-      //       && this.BB.bottom > entity.BB.top
-      //       && this.velocity.x < 0) { //Touching right side
-      //     console.log("Touching right");
-      //     this.position.x = entity.BB.right;
-
-      //     if (this.velocity.x < 0) this.velocity.x = 0;
-      //   }
-
-      //   if (this.BB.right >= entity.BB.left 
-      //       && this.BB.bottom > entity.BB.top 
-      //       && this.velocity.x > 0) {  //Touching left side
-      //     console.log("Touching left");
-      //     this.position.x = entity.BB.left - this.BB.width;
-
-      //     if (this.velocity.x > 0) this.velocity.x = 0;
-      //   }
-      // }
 
       //enimies collision
       if ((entity instanceof EnemiesCrab || entity instanceof Bug ||  entity instanceof Bee || entity instanceof Bat) //Kills Crab or Bug BB
@@ -248,7 +209,8 @@ collisionCheck() {
 
     //rings collision
     if ((entity instanceof Ring) && !this.dead && this.BB.collide(entity.BB)){ 
-      this.rings++;
+      console.log("YES");
+      this.rings += 1;
       entity.removeFromWorld = true;
     }
 
@@ -263,10 +225,10 @@ collisionCheck() {
       this.animations[this.state][this.direction].elapsedTime = 0;
       this.state = 0;
     }
-    if (PARAMS.DEBUG) {
-      this.game.ctx.strokeStyle = "red";
-      this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-    }
+    // if (PARAMS.DEBUG) {
+    //   this.game.ctx.strokeStyle = "red";
+    //   this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+    // }
     if(this.gameWon) {
       ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
       ctx.filllstyle = 'black';

@@ -7,13 +7,13 @@ class EnemiesCrab {
         this.speed = 10;
         this.x = x;
         this.y = y;
-        this.sonicEnemy = new Animator(this.spritesheet, 0, 10, 75.6, 47, 5, .15, 7, true, true);
+        this.sonicEnemy = new Animator(this.spritesheet, 0, 11, 76.6, 47, 5, .10, 7, true, true);
         this.BB = null;
         this.updateBB();
     };
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 230, 115, "red");
+        this.BB = new BoundingBox(this.x + 20, this.y, 200, 115, "red");
     }
 
     update() {
@@ -29,10 +29,10 @@ class EnemiesCrab {
             console.log("Spritesheet not loaded");
         }
 
-        if (PARAMS.DEBUG) {
-            this.game.ctx.strokeStyle = "red";
-            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-          }
+        // if (PARAMS.DEBUG) {
+        //     this.game.ctx.strokeStyle = "red";
+        //     this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+        //   }
     }
 }
 
@@ -45,7 +45,7 @@ class Bug {
         this.speed = 5;
         this.x = x;
         this.y = y;
-        this.sonicEnemy = new Animator(this.spritesheet, 0, 4, 40, 30, 3, .15, 4,false, true);
+        this.sonicEnemy = new Animator(this.spritesheet, 0, 4, 40, 30, 3, .16, 4,false, true);
         this.BB = null;
         this.updateBB();
     };
@@ -68,10 +68,10 @@ class Bug {
             console.log("Spritesheet not loaded");
         }
 
-        if (PARAMS.DEBUG) {
-            this.game.ctx.strokeStyle = "red";
-            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-          }
+        // if (PARAMS.DEBUG) {
+        //     this.game.ctx.strokeStyle = "red";
+        //     this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+        //   }
     }
 }
 class Bat {
@@ -83,7 +83,7 @@ class Bat {
         this.speed = 5;
         this.x = x;
         this.y = y;
-        this.sonicEnemy = new Animator(this.spritesheet, 26, 0, 28, 50, 2, .50, 7,false, true);
+        this.sonicEnemy = new Animator(this.spritesheet, 26, 0, 28, 50, 2, .10, 7,false, true);
         this.BB = null;
         this.updateBB();
     };
@@ -106,10 +106,10 @@ class Bat {
             console.log("Spritesheet not loaded");
         }
 
-        if (PARAMS.DEBUG) {
-            this.game.ctx.strokeStyle = "red";
-            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height, 2.5);
-          }
+        // if (PARAMS.DEBUG) {
+        //     this.game.ctx.strokeStyle = "red";
+        //     this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height, 2.5);
+        //   }
     }
 }
 
@@ -119,10 +119,10 @@ class Bee {
         this.game = game;
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bee.png");
-        this.speed = 50;
+        this.speed = 20;
         this.x = x;
         this.y = y;
-        this.sonicEnemy = new Animator(this.spritesheet, 0, 0, 37, 40, 2, .50, 0,false, true);
+        this.sonicEnemy = new Animator(this.spritesheet, 0, 0, 37, 40, 2, .10, 0,false, true);
         this.BB = null;
         this.updateBB();
     };
@@ -145,10 +145,10 @@ class Bee {
             console.log("Spritesheet not loaded");
         }
 
-        if (PARAMS.DEBUG) {
-            this.game.ctx.strokeStyle = "red";
-            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height, 1.5);
-          }
+        // if (PARAMS.DEBUG) {
+        //     this.game.ctx.strokeStyle = "red";
+        //     this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height, 1.5);
+        //   }
     }
 }
 
@@ -219,9 +219,9 @@ class Ring {
             console.log("Spritesheet not loaded");
         }
 
-        if (PARAMS.DEBUG) {
-            this.game.ctx.strokeStyle = "red";
-            this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-          }
+        // if (PARAMS.DEBUG) {
+        //     this.game.ctx.strokeStyle = "red";
+        //     this.game.ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+        //   }
     }
 }

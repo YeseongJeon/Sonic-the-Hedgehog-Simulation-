@@ -29,14 +29,14 @@ class Platform {
   draw(ctx) {
     ctx.drawImage(this.spritesheet, this.position.x - this.game.camera.x, this.position.y, this.width, this.height);
 
-    if (PARAMS.DEBUG) {
-      ctx.strokeStyle = "lime";
-      ctx.strokeRect(
-        this.BB.x - this.game.camera.x,
-        this.BB.y,
-        this.BB.width,
-        this.BB.height
-      );
-    }
+    // if (PARAMS.DEBUG) {
+    //   ctx.strokeStyle = "lime";
+    //   ctx.strokeRect(
+    //     this.BB.x - this.game.camera.x,
+    //     this.BB.y,
+    //     this.BB.width,
+    //     this.BB.height
+    //   );
+    // }
   }
 }
