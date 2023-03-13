@@ -92,11 +92,11 @@ class SceneManager {
     let ring2 = new Ring(this.game, 400, 322);
     this.game.entities.push(ring2);
 
-    const canvasWidth = 15000;
+    const canvasWidth = 30000;
     const platformWidth = 400;
     const platformHeight = 120;
     const platformGap = 270;
-    const ringProbability = 0.7; // probability of a platform having a ring (0.5 = 50% chance)
+    const ringProbability = 0.7; // probability of a platform having a ring (0.7 = 70% chance)
     const maxRingsPerPlatform = 3; // maximum number of rings per platform
     const minRingsPerPlatform = 1; // minimum number of rings per platform
     const ringWidth = 50;
@@ -148,14 +148,17 @@ class SceneManager {
     }
 
       
-    let platformfinal = new Platform(this.game, 15400, 667, 800, 120);
+    let platformfinal = new Platform(this.game, 30400, 667, 800, 120);
     this.game.entities.push(platformfinal);
-    let checkpoint1 = new Checkpoint(this.game, 15700, 520);
+    let checkpoint1 = new Checkpoint(this.game, 30700, 520);
     this.game.entities.push(checkpoint1);
     
     //backgound entities
-    let backgroundHill = new BackgroundHill(this.game, 0, 192, 24000, 168);
-    let treesAndWaterfall = new TreesAndWaterfall(this.game, 0, 360, 24000, 141);
+    let backgroundHilla = new BackgroundHill(this.game, 0, 192, 24000, 168);
+    let treesAndWaterfalla = new TreesAndWaterfall(this.game, 0, 360, 24000, 141);
+    let backgroundHillb = new BackgroundHill(this.game, 24000, 192, 24000, 168);
+    let treesAndWaterfallb = new TreesAndWaterfall(this.game, 24000, 360, 24000, 141);
+
     let cloud1a = new Cloud1(this.game, 0, 0, 12000, 96);
     let cloud1b = new Cloud1(this.game, 12000, 0, 12000, 96);
     let cloud1c = new Cloud1(this.game, 24000, 0, 12000, 96);
@@ -170,7 +173,8 @@ class SceneManager {
     let cloud3d = new Cloud3(this.game, 36000, 144, 12000, 48);
    
     let water = new Water(gameEngine);
-    this.game.entities.push(backgroundHill, treesAndWaterfall, 
+    this.game.entities.push(backgroundHilla, treesAndWaterfalla, 
+                            backgroundHillb, treesAndWaterfallb, 
                             cloud1a, cloud1b, cloud1c, cloud1d,
                             cloud2a, cloud2b, cloud2c, cloud2d,
                             cloud3a, cloud3b, cloud3c, cloud3d,
